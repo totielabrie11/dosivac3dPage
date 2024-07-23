@@ -1,0 +1,77 @@
+.product-3d {
+    position: relative;
+    height: 100%;
+    background-color: #eaeaea; /* Fondo ligero para mejorar el contraste */
+    border-radius: 8px; /* Añade borde redondeado */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Añade sombra */
+    overflow: hidden; /* Para asegurar que los contenidos no se desborden */
+  }
+  
+  .controls-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.9); /* Hacer el fondo un poco más opaco */
+    padding: 20px; /* Aumentar el padding para mejor espacio */
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Aumentar la sombra para mejor contraste */
+    display: flex;
+    flex-direction: column; /* Alinear los elementos en columna */
+    gap: 10px; /* Espaciado entre los elementos */
+  }
+  
+  .controls-container label {
+    color: #0056b3;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    font-size: 14px; /* Ajustar el tamaño de la fuente */
+    margin-bottom: 10px; /* Margen inferior para espaciado */
+  }
+  
+  .controls-container input[type="range"] {
+    flex: 1;
+    margin-left: 10px; /* Espaciado entre el texto y el control deslizante */
+  }
+  
+  .controls-container button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: #007bff; /* Color del botón */
+    color: white;
+    border-radius: 4px;
+    font-size: 14px; /* Ajustar el tamaño de la fuente */
+    cursor: pointer;
+  }
+  
+  .controls-container button:hover {
+    background-color: #0056b3; /* Color del botón al pasar el ratón */
+  }
+  
+  .close-button {
+    width: 10% !important;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+  }
+  
+  .show-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255, 255, 255, 0.9); /* Fondo ligero */
+    padding: 5px 10px;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    font-size: 18px;
+  }
+  

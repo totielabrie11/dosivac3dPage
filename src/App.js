@@ -1,14 +1,13 @@
-// src/App.js
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import NavBar from './components/NavBar';
-import Home from './components/Home';
-import Productos from './components/Productos';
+import Home from './components/Home/Home';
+import Productos from './components/Productos/Productos';
 
 function App() {
   return (
     <Router>
-      <div className="App">
+      <div>
         <NavBar />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -20,4 +19,3 @@ function App() {
 }
 
 export default App;
-

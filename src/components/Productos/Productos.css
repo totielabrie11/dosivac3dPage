@@ -1,0 +1,36 @@
+.productos-container {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 20px;
+    gap: 20px;
+    background-color: #f0f0f0; /* Fondo ligero para contrastar */
+  }
+  
+  .product-description,
+  .product-3d {
+    flex: 1;
+    min-width: 300px; /* Para hacer que las columnas sean responsivas */
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    background-color: #fff;
+    overflow: hidden; /* Para asegurar que los contenidos no se desborden */
+  }
+  
+  .product-3d {
+    position: relative;
+    height: 100vh; /* Ajusta esto según tus necesidades */
+    background-color: #eaeaea; /* Fondo para mejorar el contraste */
+  }
+  
+  .controls-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  }
+  
