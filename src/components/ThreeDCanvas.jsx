@@ -1,5 +1,5 @@
-// src/component/ThreeDCanvas.jsx
-import React, { useState, useRef } from 'react';
+// src/components/ThreeDCanvas.jsx
+import React, { useState, useRef, Suspense } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, useGLTF } from '@react-three/drei';
 
@@ -23,7 +23,7 @@ function ThreeDCanvas({ modelPath }) {
   const [isAnimating, setIsAnimating] = useState(false);
 
   return (
-    <>
+    <div style={{ position: 'relative', height: '100vh' }}>
       <div style={{ position: 'absolute', top: 10, right: 10, zIndex: 1 }}>
         <label>
           Light Intensity: 
@@ -90,22 +90,21 @@ function ThreeDCanvas({ modelPath }) {
         </button>
       </div>
       <Canvas
-        style={{ height: '100vh' }}
+        style={{ height: '100%' }}
         camera={{ position: [0, 0, 2], fov: 60, near: 0.1, far: 1000 }}
       >
         <ambientLight intensity={0.5} />
         <directionalLight position={lightPosition} intensity={lightIntensity} />
         <spotLight position={[5, 5, 5]} intensity={spotLightIntensity} angle={0.3} penumbra={1} castShadow />
-        <Model path={modelPath} isAnimating={isAnimating} position={[0, 0, 0]} scale={0.5} />
-        <OrbitControls
-          minDistance={0.1}
-          maxDistance={50}
-          maxPolarAngle={Math.PI}
-          minPolarAngle={0}
-        />
+        <Suspense fallback={null}>
+          <Model path={modelPath} isAnimating={isAnimating} position={[0, 0, 0]} scale={0.5} />
+        </Suspense>
+        <OrbitControls minDistance={0.1} maxDistance={50} maxPolarAngle={Math.PI} minPolarAngle={0} />
       </Canvas>
-    </>
+    </div>
   );
 }
 
 export default ThreeDCanvas;
+
+
