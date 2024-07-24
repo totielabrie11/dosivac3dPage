@@ -125,6 +125,14 @@ function Productos() {
     }
   };
 
+  const handleDeleteCharacteristic = (index) => {
+    if (window.confirm('¿Estás seguro de que deseas eliminar esta característica?')) {
+      const updatedCharacteristics = characteristics.filter((_, i) => i !== index);
+      setCharacteristics(updatedCharacteristics);
+      updateCharacteristics(updatedCharacteristics);
+    }
+  };
+
   return (
     <div className="productos-container">
       <div className="product-list">
@@ -176,12 +184,20 @@ function Productos() {
                   ) : (
                     <>
                       {char}
-                      <span
-                        className="edit-icon"
-                        onClick={() => handleEditCharacteristic(index)}
-                      >
-                        ✏️
-                      </span>
+                      <div className="icon-container">
+                        <span
+                          className="edit-icon"
+                          onClick={() => handleEditCharacteristic(index)}
+                        >
+                          ✏️
+                        </span>
+                        <span
+                          className="delete-icon"
+                          onClick={() => handleDeleteCharacteristic(index)}
+                        >
+                          🗑️
+                        </span>
+                      </div>
                     </>
                   )}
                 </li>

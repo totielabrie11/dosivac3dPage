@@ -1,16 +1,20 @@
 .productos-container {
   display: flex;
-  flex-direction: row;
   gap: 20px;
   background-color: #f0f0f0; /* Fondo ligero para contrastar */
   padding: 20px;
 }
 
-.product-list,
-.product-description,
-.product-3d {
+.left-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
   flex: 1;
   min-width: 300px; /* Para hacer que las columnas sean responsivas */
+}
+
+.product-description,
+.product-list {
   padding: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
@@ -19,9 +23,13 @@
 }
 
 .product-3d {
+  flex: 2;
   position: relative;
   height: 100vh; /* Ajusta esto según tus necesidades */
   background-color: #eaeaea; /* Fondo para mejorar el contraste */
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
 }
 
 button {
@@ -68,13 +76,13 @@ ul li input[type="text"] {
   flex-grow: 1;
 }
 
-.edit-icon {
+.edit-icon, .delete-icon {
   margin-left: 10px;
   cursor: pointer;
   font-size: 1.2em;
 }
 
-.edit-icon:hover {
+.edit-icon:hover, .delete-icon:hover {
   color: #007bff;
 }
 
@@ -86,4 +94,11 @@ p .edit-icon {
   position: absolute;
   right: 0;
   top: 0;
+}
+
+.icon-container {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  width: 50px;
 }

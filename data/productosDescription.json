@@ -4,10 +4,11 @@
     "description": "Partida de ajedrez mundial e internacional",
     "caracteristicas": [
       "Material: Madera de alta calidad",
-      "Número de piezas: 32",
+      "Número de piezas: 33",
       "Tamaño del tablero: 40x40 cm",
+      "Acabado: Laca brillante",
       "Peso: 1.5 kg",
-      "Acabado: Laca brillante"
+      "Ultimo Campeón: Nazareno Martínez"
     ],
     "path": "/models/car/ajedrez/glTF/chess_set_4k.glb"
   },
@@ -15,7 +16,7 @@
     "name": "dosivac",
     "description": "Mala bomba.",
     "caracteristicas": [
-      "Potencia: 2.5 HP",
+      "Potencia: 1.5 HP",
       "Material: Aluminio reforzado",
       "Capacidad: 200 litros",
       "Velocidad máxima: 3000 RPM",
