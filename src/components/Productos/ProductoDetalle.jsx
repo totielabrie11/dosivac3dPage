@@ -37,10 +37,22 @@ function ProductoDetalle() {
   }
 
   return (
-    <div className="producto-detalle">
-      <h2>{product.name}</h2>
-      <p>{product.description}</p>
-      <ThreeDCanvas modelPath={product.path} />
+    <div className="productos-container">
+      <div className="product-description">
+        <h2>{product.name}</h2>
+        <p>{product.description}</p>
+        <h3>Características:</h3>
+        <ol>
+          <li>Potencia: 2.5 HP</li>
+          <li>Material: Aluminio reforzado</li>
+          <li>Capacidad: 200 litros</li>
+          <li>Velocidad máxima: 3000 RPM</li>
+          <li>Consumo energético: 1.2 kWh</li>
+        </ol>
+      </div>
+      <div className="product-3d">
+        <ThreeDCanvas modelPath={product.path} />
+      </div>
     </div>
   );
 }
