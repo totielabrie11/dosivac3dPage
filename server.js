@@ -62,6 +62,20 @@ app.get('/api/models', (req, res) => {
   res.json(result);
 });
 
+// API endpoint para obtener un producto por su nombre
+app.get('/api/product/:name', (req, res) => {
+  const name = req.params.name;
+  const descriptions = JSON.parse(fs.readFileSync(productosDescriptionPath, 'utf8'));
+  const product = descriptions.find(product => product.name === name);
+
+  if (product) {
+    res.json(product);
+  } else {
+    res.status(404).json({ message: 'Product not found' });
+  }
+});
+
+
 // Servir los archivos estáticos de React
 app.use(express.static(path.join(__dirname, 'build')));
 

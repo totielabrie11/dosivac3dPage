@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const ProductList = ({ setModelPath, setProductDescription, setSelectedProduct }) => {
   const [data, setData] = useState(null);
@@ -49,16 +50,20 @@ const ProductList = ({ setModelPath, setProductDescription, setSelectedProduct }
           <h3>Total GLTF models found: {data.gltfCount}</h3>
           <ul>
             {data.gltfNames && data.gltfNames.map((model, index) => (
-              <li key={index} onClick={() => { setModelPath(model.path); fetchProductDescription(model.name); }}>
-                {index + 1}) {model.name}
+              <li key={index}>
+                <Link to={`/productos/${model.name}`} onClick={() => { setModelPath(model.path); fetchProductDescription(model.name); }}>
+                  {index + 1}) {model.name}
+                </Link>
               </li>
             ))}
           </ul>
           <h3>Total GLB models found: {data.glbCount}</h3>
           <ul>
             {data.glbNames && data.glbNames.map((model, index) => (
-              <li key={index} onClick={() => { setModelPath(model.path); fetchProductDescription(model.name); }}>
-                {index + 1}) {model.name}
+              <li key={index}>
+                <Link to={`/productos/${model.name}`} onClick={() => { setModelPath(model.path); fetchProductDescription(model.name); }}>
+                  {index + 1}) {model.name}
+                </Link>
               </li>
             ))}
           </ul>

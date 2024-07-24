@@ -1,0 +1,21 @@
+.producto-detalle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .producto-detalle h2 {
+    margin-bottom: 10px;
+  }
+  
+  .producto-detalle p {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .producto-detalle .product-3d {
+    width: 100%;
+    height: 500px;
+  }
+  
