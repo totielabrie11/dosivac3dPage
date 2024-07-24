@@ -41,14 +41,16 @@ function ProductoDetalle() {
       <div className="product-description">
         <h2>{product.name}</h2>
         <p>{product.description}</p>
-        <h3>Características:</h3>
-        <ol>
-          <li>Potencia: 2.5 HP</li>
-          <li>Material: Aluminio reforzado</li>
-          <li>Capacidad: 200 litros</li>
-          <li>Velocidad máxima: 3000 RPM</li>
-          <li>Consumo energético: 1.2 kWh</li>
-        </ol>
+        {product.caracteristicas && product.caracteristicas.length > 0 && (
+          <>
+            <h3>Características:</h3>
+            <ol>
+              {product.caracteristicas.map((caracteristica, index) => (
+                <li key={index}>{caracteristica}</li>
+              ))}
+            </ol>
+          </>
+        )}
       </div>
       <div className="product-3d">
         <ThreeDCanvas modelPath={product.path} />

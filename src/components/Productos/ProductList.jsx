@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const ProductList = ({ setModelPath, setProductDescription, setSelectedProduct }) => {
+const ProductList = ({ setModelPath, setProductDescription, setSelectedProduct, setCharacteristics }) => {
   const [data, setData] = useState(null);
   const [showList, setShowList] = useState(true);
 
@@ -30,14 +30,17 @@ const ProductList = ({ setModelPath, setProductDescription, setSelectedProduct }
       if (product) {
         setProductDescription(product.description);
         setSelectedProduct(name);
+        setCharacteristics(product.caracteristicas || []);
       } else {
         setProductDescription('No description available for this product.');
         setSelectedProduct(name);
+        setCharacteristics([]);
       }
     } catch (error) {
       console.error('Failed to fetch product descriptions:', error);
       setProductDescription('No description available for this product.');
       setSelectedProduct(name);
+      setCharacteristics([]);
     }
   };
 
@@ -51,8 +54,12 @@ const ProductList = ({ setModelPath, setProductDescription, setSelectedProduct }
           <ul>
             {data.gltfNames && data.gltfNames.map((model, index) => (
               <li key={index}>
-                <Link to={`/productos/${model.name}`} onClick={() => { setModelPath(model.path); fetchProductDescription(model.name); }}>
-                  {index + 1}) {model.name}
+                {index + 1}) {model.name}
+                <button onClick={() => { setModelPath(model.path); fetchProductDescription(model.name); }}>
+                  Editar
+                </button>
+                <Link to={`/productos/${model.name}`}>
+                  <button>Ver Producto</button>
                 </Link>
               </li>
             ))}
@@ -61,8 +68,12 @@ const ProductList = ({ setModelPath, setProductDescription, setSelectedProduct }
           <ul>
             {data.glbNames && data.glbNames.map((model, index) => (
               <li key={index}>
-                <Link to={`/productos/${model.name}`} onClick={() => { setModelPath(model.path); fetchProductDescription(model.name); }}>
-                  {index + 1}) {model.name}
+                {index + 1}) {model.name}
+                <button onClick={() => { setModelPath(model.path); fetchProductDescription(model.name); }}>
+                  Editar
+                </button>
+                <Link to={`/productos/${model.name}`}>
+                  <button>Ver Producto</button>
                 </Link>
               </li>
             ))}

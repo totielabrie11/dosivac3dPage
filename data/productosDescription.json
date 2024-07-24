@@ -1,27 +1,64 @@
 [
   {
     "name": "ajedrez",
-    "description": "partida de ajedrez mundial",
+    "description": "Partida de ajedrez mundial e internacional",
+    "caracteristicas": [
+      "Material: Madera de alta calidad",
+      "Número de piezas: 32",
+      "Tamaño del tablero: 40x40 cm",
+      "Peso: 1.5 kg",
+      "Acabado: Laca brillante"
+    ],
     "path": "/models/car/ajedrez/glTF/chess_set_4k.glb"
   },
   {
     "name": "dosivac",
-    "description": "mala bomba",
+    "description": "Mala bomba.",
+    "caracteristicas": [
+      "Potencia: 2.5 HP",
+      "Material: Aluminio reforzado",
+      "Capacidad: 200 litros",
+      "Velocidad máxima: 3000 RPM",
+      "Consumo energético: 1.2 kWh"
+    ],
     "path": "/models/car/dosivac/glTF/Dvr new.glb"
   },
   {
     "name": "zapatillas charly",
-    "description": "Estas son las zapatillas de charly.",
+    "description": "Estas son las zapatillas de Charly.",
+    "caracteristicas": [
+      "Tamaño: 42",
+      "Material: Cuero sintético",
+      "Color: Negro y rojo",
+      "Peso: 300 g cada una",
+      "Suela: Antideslizante"
+    ],
     "path": "/models/car/zapatillas charly/glTF/zapatilla charly.glb"
   },
   {
     "name": "BarramundiFish",
-    "description": "Descripción del producto BarramundiFish.",
+    "description": "pez del amazonas poco común",
+    "caracteristicas": [
+      "Longitud: 50 cm",
+      "Peso: 2.5 kg",
+      "Color: Plateado",
+      "Hábitat: Agua salada y dulce",
+      "Esperanza de vida: 20 años",
+      "Link de descarga: www.manual.com",
+      "me da verguenza no se de que"
+    ],
     "path": "/models/car/BarramundiFish/glTF/BarramundiFish.gltf"
   },
   {
     "name": "ratita",
     "description": "Descripción del producto ratita.",
+    "caracteristicas": [
+      "Tamaño: 15 cm",
+      "Peso: 250 g",
+      "Color: Gris",
+      "Dieta: Omnívora",
+      "Esperanza de vida: 2-3 años"
+    ],
     "path": "/models/car/ratita/glTF/street_rat_4k.glb"
   }
 ]

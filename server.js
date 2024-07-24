@@ -54,6 +54,23 @@ app.post('/api/product-descriptions', (req, res) => {
   res.json({ success: true });
 });
 
+// API endpoint para actualizar las características de un producto
+app.post('/api/product-characteristics', (req, res) => {
+  const { name, characteristics } = req.body;
+  const descriptions = JSON.parse(fs.readFileSync(productosDescriptionPath, 'utf8'));
+
+  const existingProduct = descriptions.find(product => product.name === name);
+  if (existingProduct) {
+    existingProduct.caracteristicas = characteristics;
+  } else {
+    descriptions.push({ name, description: '', caracteristicas: characteristics });
+  }
+
+  fs.writeFileSync(productosDescriptionPath, JSON.stringify(descriptions, null, 2));
+  res.json({ success: true });
+});
+
+
 // API endpoint para obtener modelos y registrar productos automáticamente
 app.get('/api/models', (req, res) => {
   const getGLTFFiles = require('./scripts/getModels');
