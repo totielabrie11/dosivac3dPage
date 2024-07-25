@@ -62,14 +62,14 @@ const ProductList = ({ setModelPath, setProductDescription, setSelectedProduct, 
       });
 
       if (response.ok) {
-        alert('File uploaded successfully');
+        alert('Producto subido exitosamente');
         fetchProducts();
       } else {
-        alert('Failed to upload file');
+        alert('No se ha logrado subir el producto');
       }
     } catch (error) {
-      console.error('Failed to upload file:', error);
-      alert('Failed to upload file');
+      console.error('No se ha logrado subir el producto:', error);
+      alert('No se ha logrado subir el producto');
     }
   };
 

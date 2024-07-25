@@ -21,5 +21,20 @@
       "Tipo de motor: Brushless",
       "Apto: gases de nueva generación 600 inflamables"
     ]
+  },
+  {
+    "name": "Fujifilm X-S10",
+    "description": "",
+    "path": "/models/Fujifilm X-S10.glb"
+  },
+  {
+    "name": "Moto Guzzi",
+    "description": "",
+    "path": "/models/Moto Guzzi.glb"
+  },
+  {
+    "name": "Classic BMW CAFE motorcycle",
+    "description": "",
+    "path": "/models/Classic BMW CAFE motorcycle.glb"
   }
 ]
