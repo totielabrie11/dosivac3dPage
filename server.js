@@ -24,6 +24,12 @@ if (!fs.existsSync(setterProductPath)) {
   fs.writeFileSync(setterProductPath, JSON.stringify([]));
 }
 
+// Crear el archivo 'us.json' si no existe
+const usersPath = path.join(dataDir, 'us.json');
+if (!fs.existsSync(usersPath)) {
+  fs.writeFileSync(usersPath, JSON.stringify([]));
+}
+
 // Middleware para servir archivos estáticos
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
@@ -39,6 +45,19 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
+
+// Ruta para verificar credenciales
+app.post('/api/login', (req, res) => {
+  const { username, password } = req.body;
+  const users = JSON.parse(fs.readFileSync(usersPath, 'utf8'));
+
+  const user = users.find(user => user.username === username && user.password === password);
+  if (user) {
+    res.json({ success: true, role: user.role });
+  } else {
+    res.status(401).json({ success: false, message: 'Invalid credentials' });
+  }
+});
 
 // Ruta para cargar un nuevo archivo GLB
 app.post('/api/upload', upload.single('file'), (req, res) => {

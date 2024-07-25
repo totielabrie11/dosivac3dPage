@@ -1,12 +1,58 @@
-import React from 'react';
-import Banner from './Banner';
-import Main from './Main';
+// src/components/Home/Home.jsx
+import React, { useState } from 'react';
 
-const Home = () => {
+const Home = ({ setIsAdmin }) => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setError('');
+
+    try {
+      const response = await fetch('/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        setIsAdmin(data.role === 'administrador');
+      } else {
+        setError('Invalid credentials');
+      }
+    } catch (error) {
+      setError('An error occurred. Please try again.');
+    }
+  };
+
   return (
     <div>
-      <Banner />
-      <Main />
+      <h1>Login</h1>
+      <form onSubmit={handleLogin}>
+        <div>
+          <label>Username:</label>
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </div>
+        <div>
+          <label>Password:</label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+        <button type="submit">Login</button>
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+      </form>
     </div>
   );
 };

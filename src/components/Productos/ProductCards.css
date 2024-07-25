@@ -1,0 +1,37 @@
+.product-cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.product-card {
+  border: 1px solid #ccc;
+  padding: 16px;
+  border-radius: 8px;
+  width: calc(33.333% - 32px); /* Ajuste para 3 columnas con espacio entre ellas */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.product-card img {
+  width: 100%;
+  height: auto;
+}
+
+.product-card h3 {
+  margin: 16px 0 8px;
+}
+
+.product-card p {
+  margin: 0 0 16px 0;
+}
+
+.product-card ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.product-card ul li {
+  margin-bottom: 8px;
+}

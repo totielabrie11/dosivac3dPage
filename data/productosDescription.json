@@ -36,5 +36,13 @@
     "name": "Classic BMW CAFE motorcycle",
     "description": "",
     "path": "/models/Classic BMW CAFE motorcycle.glb"
+  },
+  {
+    "name": "bomba",
+    "description": "Bomba para uso en petroleo",
+    "path": "/models/bomba.glb",
+    "caracteristicas": [
+      "Caudal: 10 a 500 litros"
+    ]
   }
 ]

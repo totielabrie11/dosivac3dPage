@@ -1,9 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import ThreeDCanvas from '../ThreeDCanvas/ThreeDCanvas';
 import ProductList from './ProductList';
+import ProductFilter from './ProductFilter';
+import ProductCards from './ProductCards';
 import './Productos.css';
 
-function Productos() {
+function Productos({ isAdmin }) {
+  const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const [modelPath, setModelPath] = useState(null);
   const [productDescription, setProductDescription] = useState('');
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -17,6 +21,21 @@ function Productos() {
   const [isAnimating, setIsAnimating] = useState(false);
   const [rotationSpeed, setRotationSpeed] = useState(0.01);
   const inputRef = useRef(null);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch('/api/products');
+        const data = await response.json();
+        setProducts(data);
+        setFilteredProducts(data);
+      } catch (error) {
+        console.error('Failed to fetch products:', error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   useEffect(() => {
     if (editingIndex !== null && inputRef.current) {
@@ -173,7 +192,7 @@ function Productos() {
       if (productSettings) {
         setLightIntensity(productSettings.lightIntensity);
         setSpotLightIntensity(productSettings.spotLightIntensity);
-        setLightPosition(productSettings.lightPosition || [10, 10, 10]); // Valor por defecto
+        setLightPosition(productSettings.lightPosition || [10, 10, 10]);
         setIsAnimating(productSettings.isAnimating);
         setRotationSpeed(productSettings.rotationSpeed);
       } else {
@@ -193,9 +212,47 @@ function Productos() {
     }
   };
 
+  const handleFilter = (filters) => {
+    let filtered = products;
+    // Apply filters to products
+    if (filters.tipoBomba) {
+      filtered = filtered.filter(p => p.tipoBomba === filters.tipoBomba);
+    }
+    if (filters.tipoAplicacion) {
+      filtered = filtered.filter(p => p.tipoAplicacion === filters.tipoAplicacion);
+    }
+    if (filters.tipoIndustria) {
+      filtered = filtered.filter(p => p.tipoIndustria === filters.tipoIndustria);
+    }
+    if (filters.marcaBomba) {
+      filtered = filtered.filter(p => p.marcaBomba === filters.marcaBomba);
+    }
+    if (filters.materiales) {
+      filtered = filtered.filter(p => p.materiales.includes(filters.materiales));
+    }
+    filtered = filtered.filter(p => p.presion >= filters.presionMin && p.presion <= filters.presionMax);
+    filtered = filtered.filter(p => p.caudal >= filters.caudalMin && p.caudal <= filters.caudalMax);
+    setFilteredProducts(filtered);
+  };
+
+  if (!isAdmin) {
+    return (
+      <div className="productos-container">
+        <div className="row">
+          <div className="col-md-3">
+            <ProductFilter onFilter={handleFilter} />
+          </div>
+          <div className="col-md-9">
+            <ProductCards products={filteredProducts} />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="productos-container">
-      <div className="product-list">
+      <div className="left-column">
         <ProductList
           setModelPath={setModelPath}
           setProductDescription={setProductDescription}
@@ -204,7 +261,76 @@ function Productos() {
           handleProductClick={handleProductClick}
         />
       </div>
-      <div className="product-3d">
+      <div className="center-column">
+        {selectedProduct && (
+          <div className="product-description">
+            <h2>Descripción del Producto</h2>
+            {isEditingDescription ? (
+              <textarea
+                ref={inputRef}
+                value={productDescription}
+                onChange={(e) => setProductDescription(e.target.value)}
+                onBlur={handleBlurDescription}
+              />
+            ) : (
+              <p>
+                {productDescription}
+                <span
+                  className="edit-icon"
+                  onClick={handleEditDescription}
+                >
+                  ✏️
+                </span>
+              </p>
+            )}
+            <div>
+              <h3>Características</h3>
+              <ul>
+                {characteristics.map((char, index) => (
+                  <li key={index}>
+                    {editingIndex === index ? (
+                      <input
+                        ref={inputRef}
+                        type="text"
+                        value={char}
+                        onChange={(e) => handleChangeCharacteristic(e, index)}
+                        onBlur={() => handleBlurCharacteristic(index)}
+                      />
+                    ) : (
+                      <>
+                        {char}
+                        <div className="icon-container">
+                          <span
+                            className="edit-icon"
+                            onClick={() => handleEditCharacteristic(index)}
+                          >
+                            ✏️
+                          </span>
+                          <span
+                            className="delete-icon"
+                            onClick={() => handleDeleteCharacteristic(index)}
+                          >
+                            🗑️
+                          </span>
+                        </div>
+                      </>
+                    )}
+                  </li>
+                ))}
+              </ul>
+              <input
+                type="text"
+                value={newCharacteristic}
+                onChange={(e) => setNewCharacteristic(e.target.value)}
+                placeholder="Nueva característica"
+              />
+              <button onClick={handleAddCharacteristic}>Agregar Característica</button>
+              <button onClick={handleRemoveCharacteristic}>Quitar Última Característica</button>
+            </div>
+          </div>
+        )}
+      </div>
+      <div className="right-column">
         {modelPath ? (
           <ThreeDCanvas 
             modelPath={modelPath}
@@ -224,73 +350,6 @@ function Productos() {
           <div>A la espera de mostrar un producto 3D</div>
         )}
       </div>
-      {selectedProduct && (
-        <div className="product-description">
-          <h2>Descripción del Producto</h2>
-          {isEditingDescription ? (
-            <textarea
-              ref={inputRef}
-              value={productDescription}
-              onChange={(e) => setProductDescription(e.target.value)}
-              onBlur={handleBlurDescription}
-            />
-          ) : (
-            <p>
-              {productDescription}
-              <span
-                className="edit-icon"
-                onClick={handleEditDescription}
-              >
-                ✏️
-              </span>
-            </p>
-          )}
-          <div>
-            <h3>Características</h3>
-            <ul>
-              {characteristics.map((char, index) => (
-                <li key={index}>
-                  {editingIndex === index ? (
-                    <input
-                      ref={inputRef}
-                      type="text"
-                      value={char}
-                      onChange={(e) => handleChangeCharacteristic(e, index)}
-                      onBlur={() => handleBlurCharacteristic(index)}
-                    />
-                  ) : (
-                    <>
-                      {char}
-                      <div className="icon-container">
-                        <span
-                          className="edit-icon"
-                          onClick={() => handleEditCharacteristic(index)}
-                        >
-                          ✏️
-                        </span>
-                        <span
-                          className="delete-icon"
-                          onClick={() => handleDeleteCharacteristic(index)}
-                        >
-                          🗑️
-                        </span>
-                      </div>
-                    </>
-                  )}
-                </li>
-              ))}
-            </ul>
-            <input
-              type="text"
-              value={newCharacteristic}
-              onChange={(e) => setNewCharacteristic(e.target.value)}
-              placeholder="Nueva característica"
-            />
-            <button onClick={handleAddCharacteristic}>Agregar Característica</button>
-            <button onClick={handleRemoveCharacteristic}>Quitar Última Característica</button>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

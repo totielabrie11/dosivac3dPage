@@ -49,15 +49,15 @@
   },
   {
     "name": "casco",
-    "lightIntensity": 5,
+    "lightIntensity": 1,
     "spotLightIntensity": 1,
     "lightPosition": [
-      20,
-      14.9,
-      20
+      10,
+      10,
+      10
     ],
-    "isAnimating": true,
-    "rotationSpeed": 0.002
+    "isAnimating": false,
+    "rotationSpeed": 0.01
   },
   {
     "name": "chess_set_4k",
@@ -73,27 +73,27 @@
   },
   {
     "name": "Dvr6nuevaGen",
-    "lightIntensity": 5,
+    "lightIntensity": 1,
     "spotLightIntensity": 1,
     "lightPosition": [
-      20,
-      14.9,
-      20
+      10,
+      10,
+      10
     ],
-    "isAnimating": true,
-    "rotationSpeed": 0.002
+    "isAnimating": false,
+    "rotationSpeed": 0.01
   },
   {
     "name": "Fujifilm X-S10",
-    "lightIntensity": 5,
+    "lightIntensity": 1,
     "spotLightIntensity": 1,
     "lightPosition": [
-      20,
-      14.9,
-      20
+      10,
+      10,
+      10
     ],
-    "isAnimating": true,
-    "rotationSpeed": 0.002
+    "isAnimating": false,
+    "rotationSpeed": 0.01
   },
   {
     "name": "Classic BMW CAFE motorcycle ",
@@ -121,6 +121,30 @@
   },
   {
     "name": "Classic BMW CAFE motorcycle",
+    "lightIntensity": 1,
+    "spotLightIntensity": 1,
+    "lightPosition": [
+      10,
+      10,
+      10
+    ],
+    "isAnimating": false,
+    "rotationSpeed": 0.01
+  },
+  {
+    "name": "Moto Guzzi",
+    "lightIntensity": 4.2,
+    "spotLightIntensity": 1,
+    "lightPosition": [
+      10,
+      10,
+      10
+    ],
+    "isAnimating": false,
+    "rotationSpeed": 0.01
+  },
+  {
+    "name": "bomba",
     "lightIntensity": 1,
     "spotLightIntensity": 1,
     "lightPosition": [
