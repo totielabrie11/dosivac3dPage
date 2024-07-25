@@ -32,30 +32,52 @@ function Model({ path, rotationSpeed, isAnimating, ...props }) {
   return <primitive ref={modelRef} object={scene} {...props} />;
 }
 
-function ThreeDCanvas({ modelPath }) {
-  const [lightIntensity, setLightIntensity] = useState(1);
-  const [spotLightIntensity, setSpotLightIntensity] = useState(1);
-  const [lightPosition, setLightPosition] = useState([10, 10, 10]);
-  const [isAnimating, setIsAnimating] = useState(false);
-  const [rotationSpeed, setRotationSpeed] = useState(0.01);
-  const [showControls, setShowControls] = useState(true);
+function ThreeDCanvas({ 
+  modelPath, 
+  lightIntensity, 
+  setLightIntensity, 
+  spotLightIntensity, 
+  setSpotLightIntensity, 
+  lightPosition = [10, 10, 10], 
+  setLightPosition, 
+  isAnimating, 
+  setIsAnimating, 
+  rotationSpeed, 
+  setRotationSpeed,
+  saveSettings 
+}) {
   const controlsRef = useRef();
   const [modelError, setModelError] = useState(false);
   const [key, setKey] = useState(Date.now()); // Usar una marca de tiempo para la clave
+  const [showControls, setShowControls] = useState(true); // Estado para controlar la visibilidad de los controles
 
   useEffect(() => {
-    setLightIntensity(1);
-    setSpotLightIntensity(1);
-    setLightPosition([10, 10, 10]);
-    setIsAnimating(false);
-    setRotationSpeed(0.01);
-    setModelError(false);
+    const fetchSettings = async () => {
+      try {
+        const response = await fetch('/api/product-settings');
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const settings = await response.json();
+        const productSettings = settings.find(setting => setting.name === modelPath.split('/').pop().split('.')[0]);
+        if (productSettings) {
+          if (setLightIntensity) setLightIntensity(productSettings.lightIntensity);
+          if (setSpotLightIntensity) setSpotLightIntensity(productSettings.spotLightIntensity);
+          if (setLightPosition) setLightPosition(productSettings.lightPosition);
+          if (setIsAnimating) setIsAnimating(productSettings.isAnimating);
+          if (setRotationSpeed) setRotationSpeed(productSettings.rotationSpeed);
+        }
+      } catch (error) {
+        console.error('Failed to fetch product settings:', error);
+      }
+    };
+
+    fetchSettings();
 
     if (controlsRef.current) {
       controlsRef.current.reset();
     }
 
-    // Forzar el desmontaje y montaje del componente utilizando una clave única
     setKey(Date.now());
   }, [modelPath]);
 
@@ -70,27 +92,20 @@ function ThreeDCanvas({ modelPath }) {
 
   const handleContextRestored = () => {
     console.log('THREE.WebGLRenderer: Context Restored');
-    setKey(Date.now()); // Forzar el desmontaje y montaje del componente
+    setKey(Date.now());
   };
 
   useEffect(() => {
-    const canvas = document.querySelector('canvas');
-    if (canvas) {
-      canvas.addEventListener('webglcontextlost', handleContextLost, false);
-      canvas.addEventListener('webglcontextrestored', handleContextRestored, false);
-
-      return () => {
-        canvas.removeEventListener('webglcontextlost', handleContextLost);
-        canvas.removeEventListener('webglcontextrestored', handleContextRestored);
-      };
-    }
-  }, []);
+    if (saveSettings) saveSettings();
+  }, [lightIntensity, spotLightIntensity, lightPosition, isAnimating, rotationSpeed]);
 
   return (
     <div className="product-3d">
+      <button className="toggle-controls-button" onClick={() => setShowControls(!showControls)}>
+        {showControls ? '👁️' : '👁️'}
+      </button>
       {showControls && (
         <div className="controls-container">
-          <button className="close-button" onClick={() => setShowControls(false)}>✖</button>
           <label>
             Light Intensity: 
             <input
@@ -99,7 +114,7 @@ function ThreeDCanvas({ modelPath }) {
               max="5"
               step="0.1"
               value={lightIntensity}
-              onChange={(e) => setLightIntensity(parseFloat(e.target.value))}
+              onChange={(e) => setLightIntensity && setLightIntensity(parseFloat(e.target.value))}
             />
           </label>
           <label>
@@ -110,7 +125,7 @@ function ThreeDCanvas({ modelPath }) {
               max="5"
               step="0.1"
               value={spotLightIntensity}
-              onChange={(e) => setSpotLightIntensity(parseFloat(e.target.value))}
+              onChange={(e) => setSpotLightIntensity && setSpotLightIntensity(parseFloat(e.target.value))}
             />
           </label>
           <label>
@@ -121,7 +136,7 @@ function ThreeDCanvas({ modelPath }) {
               max="20"
               step="0.1"
               value={lightPosition[0]}
-              onChange={(e) => setLightPosition([parseFloat(e.target.value), lightPosition[1], lightPosition[2]])}
+              onChange={(e) => setLightPosition && setLightPosition([parseFloat(e.target.value), lightPosition[1], lightPosition[2]])}
             />
           </label>
           <label>
@@ -132,7 +147,7 @@ function ThreeDCanvas({ modelPath }) {
               max="20"
               step="0.1"
               value={lightPosition[1]}
-              onChange={(e) => setLightPosition([lightPosition[0], parseFloat(e.target.value), lightPosition[2]])}
+              onChange={(e) => setLightPosition && setLightPosition([lightPosition[0], parseFloat(e.target.value), lightPosition[2]])}
             />
           </label>
           <label>
@@ -143,7 +158,7 @@ function ThreeDCanvas({ modelPath }) {
               max="20"
               step="0.1"
               value={lightPosition[2]}
-              onChange={(e) => setLightPosition([lightPosition[0], lightPosition[1], parseFloat(e.target.value)])}
+              onChange={(e) => setLightPosition && setLightPosition([lightPosition[0], lightPosition[1], parseFloat(e.target.value)])}
             />
           </label>
           <label>
@@ -154,16 +169,13 @@ function ThreeDCanvas({ modelPath }) {
               max="0.1"
               step="0.001"
               value={rotationSpeed}
-              onChange={(e) => setRotationSpeed(parseFloat(e.target.value))}
+              onChange={(e) => setRotationSpeed && setRotationSpeed(parseFloat(e.target.value))}
             />
           </label>
-          <button onClick={() => setIsAnimating(!isAnimating)}>
+          <button onClick={() => setIsAnimating && setIsAnimating(!isAnimating)}>
             {isAnimating ? 'Stop' : 'Play'}
           </button>
         </div>
-      )}
-      {!showControls && (
-        <button className="show-button" onClick={() => setShowControls(true)}>👁️</button>
       )}
       <Canvas
         key={key} // Usar la clave única aquí para forzar la recarga

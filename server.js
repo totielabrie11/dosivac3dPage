@@ -17,6 +17,12 @@ if (!fs.existsSync(productosDescriptionPath)) {
   fs.writeFileSync(productosDescriptionPath, JSON.stringify([]));
 }
 
+// Crear el archivo 'setterProduct.json' si no existe
+const setterProductPath = path.join(dataDir, 'setterProduct.json');
+if (!fs.existsSync(setterProductPath)) {
+  fs.writeFileSync(setterProductPath, JSON.stringify([]));
+}
+
 // Middleware para servir archivos estáticos
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
@@ -70,6 +76,31 @@ app.post('/api/product-characteristics', (req, res) => {
   res.json({ success: true });
 });
 
+// API endpoint para actualizar la configuración de un producto
+app.post('/api/product-settings', (req, res) => {
+  const { name, lightIntensity, spotLightIntensity, lightPosition, isAnimating, rotationSpeed } = req.body;
+  const settings = JSON.parse(fs.readFileSync(setterProductPath, 'utf8'));
+
+  const existingProduct = settings.find(product => product.name === name);
+  if (existingProduct) {
+    existingProduct.lightIntensity = lightIntensity;
+    existingProduct.spotLightIntensity = spotLightIntensity;
+    existingProduct.lightPosition = lightPosition;
+    existingProduct.isAnimating = isAnimating;
+    existingProduct.rotationSpeed = rotationSpeed;
+  } else {
+    settings.push({ name, lightIntensity, spotLightIntensity, lightPosition, isAnimating, rotationSpeed });
+  }
+
+  fs.writeFileSync(setterProductPath, JSON.stringify(settings, null, 2));
+  res.json({ success: true });
+});
+
+// API endpoint para obtener la configuración de los productos
+app.get('/api/product-settings', (req, res) => {
+  const settings = JSON.parse(fs.readFileSync(setterProductPath, 'utf8'));
+  res.json(settings);
+});
 
 // API endpoint para obtener modelos y registrar productos automáticamente
 app.get('/api/models', (req, res) => {
@@ -91,7 +122,6 @@ app.get('/api/product/:name', (req, res) => {
     res.status(404).json({ message: 'Product not found' });
   }
 });
-
 
 // Servir los archivos estáticos de React
 app.use(express.static(path.join(__dirname, 'build')));

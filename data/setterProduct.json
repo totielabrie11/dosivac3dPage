@@ -1,0 +1,50 @@
+[
+  {
+    "name": "BarramundiFish",
+    "lightIntensity": 4.5,
+    "spotLightIntensity": 1,
+    "lightPosition": [
+      19.5,
+      14.8,
+      10
+    ],
+    "isAnimating": true,
+    "rotationSpeed": 0.01
+  },
+  {
+    "name": "dosivac",
+    "lightIntensity": 5,
+    "spotLightIntensity": 5,
+    "lightPosition": [
+      -13.1,
+      -4.2,
+      13.7
+    ],
+    "isAnimating": true,
+    "rotationSpeed": 0.004
+  },
+  {
+    "name": "ajedrez",
+    "lightIntensity": 3.7,
+    "spotLightIntensity": 1,
+    "lightPosition": [
+      -0.8,
+      9.1,
+      -0.9
+    ],
+    "isAnimating": true,
+    "rotationSpeed": 0.002
+  },
+  {
+    "name": "zapatillas charly",
+    "lightIntensity": 5,
+    "spotLightIntensity": 1,
+    "lightPosition": [
+      11.3,
+      18.4,
+      3.5
+    ],
+    "isAnimating": true,
+    "rotationSpeed": 0.004
+  }
+]

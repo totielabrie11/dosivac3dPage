@@ -1,14 +1,13 @@
 [
   {
     "name": "ajedrez",
-    "description": "Partida de ajedrez mundial e internacional",
+    "description": "Partida de ajedrez mundial e internacional total",
     "caracteristicas": [
       "Material: Madera de alta calidad",
       "Número de piezas: 33",
       "Tamaño del tablero: 40x40 cm",
       "Acabado: Laca brillante",
-      "Peso: 1.5 kg",
-      "Ultimo Campeón: Nazareno Martínez"
+      "Peso: 1.5 kg"
     ],
     "path": "/models/car/ajedrez/glTF/chess_set_4k.glb"
   },
@@ -32,7 +31,8 @@
       "Material: Cuero sintético",
       "Color: Negro y rojo",
       "Peso: 300 g cada una",
-      "Suela: Antideslizante"
+      "Suela: Antideslizante",
+      "Apta todo terreno"
     ],
     "path": "/models/car/zapatillas charly/glTF/zapatilla charly.glb"
   },
