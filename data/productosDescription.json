@@ -8,11 +8,6 @@
     ]
   },
   {
-    "name": "chess_set_4k",
-    "description": "",
-    "path": "/models/chess_set_4k.glb"
-  },
-  {
     "name": "Dvr6nuevaGen",
     "description": "Bomba de vacío Dosivac DVR6 New Gen de 2 etapas",
     "path": "/models/Dvr6nuevaGen.glb",

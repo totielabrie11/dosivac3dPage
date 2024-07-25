@@ -145,14 +145,14 @@
   },
   {
     "name": "bomba",
-    "lightIntensity": 1,
+    "lightIntensity": 3.7,
     "spotLightIntensity": 1,
     "lightPosition": [
-      10,
+      -8.3,
       10,
       10
     ],
-    "isAnimating": false,
-    "rotationSpeed": 0.01
+    "isAnimating": true,
+    "rotationSpeed": 0.003
   }
 ]

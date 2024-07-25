@@ -1,3 +1,109 @@
+/* product.css */
+
+.productos-container {
+  display: flex;
+  gap: 20px;
+  background-color: #f0f0f0;
+  padding: 20px;
+}
+
+.left-column, .center-column, .right-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.left-column {
+  min-width: 300px;
+}
+
+.product-description,
+.product-list,
+.product-3d {
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+.product-3d {
+  position: relative;
+  height: 100vh;
+  background-color: #eaeaea;
+}
+
+button {
+  margin: 5px 0;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 16px; /* Aumentamos el tamaño de la fuente */
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+textarea, input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px; /* Aumentamos el tamaño de la fuente */
+}
+
+ul {
+  padding: 0;
+  list-style-type: none;
+}
+
+ul li {
+  background-color: #f9f9f9;
+  margin: 5px 0;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 16px; /* Aumentamos el tamaño de la fuente */
+}
+
+.edit-icon, .delete-icon {
+  margin-left: 10px;
+  cursor: pointer;
+  font-size: 1.2em;
+}
+
+.edit-icon:hover, .delete-icon:hover {
+  color: #007bff;
+}
+
+p {
+  position: relative;
+  font-size: 16px; /* Aumentamos el tamaño de la fuente */
+}
+
+p .edit-icon {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.icon-container {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  width: 50px;
+}
+
 .product-cards-container {
   display: flex;
   flex-wrap: wrap;
@@ -8,30 +114,24 @@
   border: 1px solid #ccc;
   padding: 16px;
   border-radius: 8px;
-  width: calc(33.333% - 32px); /* Ajuste para 3 columnas con espacio entre ellas */
+  width: calc(33.333% - 32px);
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   text-align: center;
+  font-size: 16px; /* Aumentamos el tamaño de la fuente */
 }
 
 .product-card img {
   width: 100%;
   height: auto;
+  border-radius: 8px;
 }
 
 .product-card h3 {
   margin: 16px 0 8px;
+  font-size: 18px; /* Aumentamos el tamaño de la fuente */
 }
 
 .product-card p {
-  margin: 0 0 16px 0;
-}
-
-.product-card ul {
-  list-style-type: none;
-  padding: 0;
   margin: 0;
-}
-
-.product-card ul li {
-  margin-bottom: 8px;
+  font-size: 16px; /* Aumentamos el tamaño de la fuente */
 }

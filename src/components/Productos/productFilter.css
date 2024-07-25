@@ -1,0 +1,57 @@
+/* productFilter.css */
+
+.product-filter {
+    padding: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    background-color: #fff;
+    margin-bottom: 16px;
+    font-size: 16px; /* Tamaño de fuente aumentado */
+  }
+  
+  .filter-section {
+    margin-bottom: 16px;
+  }
+  
+  .filter-section label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+    font-size: 18px; /* Tamaño de fuente aumentado */
+  }
+  
+  .filter-section select,
+  .filter-section input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px; /* Tamaño de fuente aumentado */
+  }
+  
+  .range-inputs {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px; /* Añadimos un gap para separar los elementos */
+    flex-wrap: wrap; /* Permitir que los elementos se envuelvan */
+  }
+  
+  .range-inputs input[type="range"] {
+    flex: 1 1 auto; /* Permitir que los elementos de rango se ajusten automáticamente */
+    margin: 0;
+  }
+  
+  .range-inputs input[type="number"] {
+    flex: 0 1 60px; /* Asegurar que los inputs numéricos tengan un tamaño fijo */
+    padding: 8px;
+    margin: 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px; /* Tamaño de fuente aumentado */
+    box-sizing: border-box;
+  }
+  
