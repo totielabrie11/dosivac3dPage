@@ -4,13 +4,13 @@ import { OrbitControls, useGLTF, Html } from '@react-three/drei';
 import './ThreeDCanvas.css';
 import Loading from '../Productos/Loading';
 
-function Model({ path, rotationSpeed, isAnimating, ...props }) {
+function Model({ path, rotationSpeed, isAnimating, rotationDirection, ...props }) {
   const { scene, nodes, materials } = useGLTF(path, true);
   const modelRef = useRef();
 
   useFrame(() => {
     if (isAnimating && modelRef.current) {
-      modelRef.current.rotation.y += rotationSpeed;
+      modelRef.current.rotation.y += rotationSpeed * rotationDirection;
     }
   });
 
@@ -50,6 +50,7 @@ function ThreeDCanvas({
   const [modelError, setModelError] = useState(false);
   const [key, setKey] = useState(Date.now()); // Usar una marca de tiempo para la clave
   const [showControls, setShowControls] = useState(true); // Estado para controlar la visibilidad de los controles
+  const [rotationDirection, setRotationDirection] = useState(1); // 1 para derecha, -1 para izquierda
 
   useEffect(() => {
     const fetchSettings = async () => {
@@ -97,7 +98,7 @@ function ThreeDCanvas({
 
   useEffect(() => {
     if (saveSettings) saveSettings();
-  }, [lightIntensity, spotLightIntensity, lightPosition, isAnimating, rotationSpeed]);
+  }, [lightIntensity, spotLightIntensity, lightPosition, isAnimating, rotationSpeed, rotationDirection]);
 
   return (
     <div className="product-3d">
@@ -172,9 +173,13 @@ function ThreeDCanvas({
               onChange={(e) => setRotationSpeed && setRotationSpeed(parseFloat(e.target.value))}
             />
           </label>
-          <button onClick={() => setIsAnimating && setIsAnimating(!isAnimating)}>
-            {isAnimating ? 'Stop' : 'Play'}
-          </button>
+          <div className="rotation-controls">
+            <button onClick={() => setRotationDirection(-1)}>&larr;</button>
+            <button onClick={() => setIsAnimating && setIsAnimating(!isAnimating)}>
+              {isAnimating ? 'Stop' : 'Play'}
+            </button>
+            <button onClick={() => setRotationDirection(1)}>&rarr;</button>
+          </div>
         </div>
       )}
       <Canvas
@@ -187,7 +192,7 @@ function ThreeDCanvas({
         <spotLight position={[5, 5, 5]} intensity={spotLightIntensity} angle={0.3} penumbra={1} castShadow />
         <Suspense fallback={<Html><Loading /></Html>}>
           {!modelError ? (
-            <Model key={modelPath} path={modelPath} rotationSpeed={rotationSpeed} isAnimating={isAnimating} position={[0, 0, 0]} scale={0.5} onError={handleError} />
+            <Model key={modelPath} path={modelPath} rotationSpeed={rotationSpeed} isAnimating={isAnimating} rotationDirection={rotationDirection} position={[0, 0, 0]} scale={0.5} onError={handleError} />
           ) : (
             <Html><div>Error al cargar el modelo</div></Html>
           )}

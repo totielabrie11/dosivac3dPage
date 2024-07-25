@@ -63,6 +63,15 @@
   font-size: 24px;
 }
 
+.rotation-controls {
+  display: flex;
+  justify-content: space-between;
+}
+
+.rotation-controls button {
+  width: 25%;
+}
+
 @media (max-width: 600px) {
   .controls-container {
     padding: 15px;

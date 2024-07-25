@@ -16,12 +16,12 @@
     "lightIntensity": 5,
     "spotLightIntensity": 5,
     "lightPosition": [
-      -13.1,
-      -4.2,
-      13.7
+      -20,
+      -1.6,
+      -15
     ],
     "isAnimating": true,
-    "rotationSpeed": 0.004
+    "rotationSpeed": 0.008
   },
   {
     "name": "ajedrez",
