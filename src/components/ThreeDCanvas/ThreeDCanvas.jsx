@@ -48,11 +48,12 @@ function ThreeDCanvas({
 }) {
   const controlsRef = useRef();
   const [modelError, setModelError] = useState(false);
-  const [key, setKey] = useState(Date.now()); // Usar una marca de tiempo para la clave
-  const [showControls, setShowControls] = useState(true); // Estado para controlar la visibilidad de los controles
-  const [rotationDirection, setRotationDirection] = useState(1); // 1 para derecha, -1 para izquierda
+  const [key, setKey] = useState(Date.now());
+  const [showControls, setShowControls] = useState(true);
+  const [rotationDirection, setRotationDirection] = useState(1);
 
   useEffect(() => {
+    if (!modelPath) return;
     const fetchSettings = async () => {
       try {
         const response = await fetch('/api/product-settings');
@@ -74,31 +75,20 @@ function ThreeDCanvas({
     };
 
     fetchSettings();
-
     if (controlsRef.current) {
       controlsRef.current.reset();
     }
-
     setKey(Date.now());
-  }, [modelPath]);
+  }, [modelPath, setLightIntensity, setSpotLightIntensity, setLightPosition, setIsAnimating, setRotationSpeed]);
 
-  const handleError = () => {
+  const handleError = (error) => {
+    console.error('Error loading model:', error);
     setModelError(true);
-  };
-
-  const handleContextLost = (event) => {
-    event.preventDefault();
-    console.error('THREE.WebGLRenderer: Context Lost');
-  };
-
-  const handleContextRestored = () => {
-    console.log('THREE.WebGLRenderer: Context Restored');
-    setKey(Date.now());
   };
 
   useEffect(() => {
     if (saveSettings) saveSettings();
-  }, [lightIntensity, spotLightIntensity, lightPosition, isAnimating, rotationSpeed, rotationDirection]);
+  }, [lightIntensity, spotLightIntensity, lightPosition, isAnimating, rotationSpeed, rotationDirection, saveSettings]);
 
   return (
     <div className="product-3d">
@@ -192,7 +182,11 @@ function ThreeDCanvas({
         <spotLight position={[5, 5, 5]} intensity={spotLightIntensity} angle={0.3} penumbra={1} castShadow />
         <Suspense fallback={<Html><Loading /></Html>}>
           {!modelError ? (
-            <Model key={modelPath} path={modelPath} rotationSpeed={rotationSpeed} isAnimating={isAnimating} rotationDirection={rotationDirection} position={[0, 0, 0]} scale={0.5} onError={handleError} />
+            modelPath ? (
+              <Model key={modelPath} path={modelPath} rotationSpeed={rotationSpeed} isAnimating={isAnimating} rotationDirection={rotationDirection} position={[0, 0, 0]} scale={0.5} onError={handleError} />
+            ) : (
+              <Html><div>A la espera de mostrar un producto 3D</div></Html>
+            )
           ) : (
             <Html><div>Error al cargar el modelo</div></Html>
           )}

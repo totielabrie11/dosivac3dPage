@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Ruta de la carpeta donde se encuentran los modelos
-const modelsDir = path.join(__dirname, '..', 'public', 'models', 'car');
+const modelsDir = path.join(__dirname, '..', 'public', 'models');
 
 // Función para contar archivos GLTF/GLB
 function getGLTFFiles() {
@@ -17,42 +17,37 @@ function getGLTFFiles() {
 
   items.forEach(item => {
     const itemPath = path.join(modelsDir, item);
+    const fileExtension = path.extname(item).toLowerCase();
 
-    // Verificar si el item es una carpeta
-    if (fs.lstatSync(itemPath).isDirectory()) {
+    if (fileExtension === '.gltf' || fileExtension === '.glb') {
+      const modelName = path.basename(item, fileExtension);
+      const modelPath = `/models/${item}`;
+      models.push({ name: modelName, path: modelPath });
+      if (fileExtension === '.gltf') {
+        gltfCount++;
+        gltfNames.push({ name: modelName, path: modelPath });
+      } else {
+        glbCount++;
+        glbNames.push({ name: modelName, path: modelPath });
+      }
+    } else if (fs.lstatSync(itemPath).isDirectory()) {
       const gltfDir = path.join(itemPath, 'glTF');
-
-      // Verificar si la subcarpeta glTF existe
       if (fs.existsSync(gltfDir) && fs.lstatSync(gltfDir).isDirectory()) {
-        // Leer el contenido de la subcarpeta glTF
         const gltfFiles = fs.readdirSync(gltfDir);
-
-        // Buscar un archivo GLTF/GLB
         const gltfFile = gltfFiles.find(file => ['.gltf', '.glb'].includes(path.extname(file).toLowerCase()));
 
         if (gltfFile) {
-          const fileExtension = path.extname(gltfFile).toLowerCase();
-          if (fileExtension === '.gltf') {
-            const gltfContent = JSON.parse(fs.readFileSync(path.join(gltfDir, gltfFile), 'utf8'));
-            if (gltfContent.asset && parseFloat(gltfContent.asset.version) >= 2.0) {
-              models.push({ name: item, path: `/models/car/${item}/glTF/${gltfFile}` });
-              gltfCount++;
-              gltfNames.push({ name: item, path: `/models/car/${item}/glTF/${gltfFile}` });
-              console.log(`Model ${item} has a GLTF file with version ${gltfContent.asset.version}.`);
-            } else {
-              console.log(`Model ${item} has an unsupported GLTF version ${gltfContent.asset.version}.`);
-            }
-          } else if (fileExtension === '.glb') {
-            models.push({ name: item, path: `/models/car/${item}/glTF/${gltfFile}` });
+          const modelName = item;
+          const modelPath = `/models/${item}/glTF/${gltfFile}`;
+          models.push({ name: modelName, path: modelPath });
+          if (path.extname(gltfFile).toLowerCase() === '.gltf') {
+            gltfCount++;
+            gltfNames.push({ name: modelName, path: modelPath });
+          } else {
             glbCount++;
-            glbNames.push({ name: item, path: `/models/car/${item}/glTF/${gltfFile}` });
-            console.log(`Model ${item} has a GLB file.`);
+            glbNames.push({ name: modelName, path: modelPath });
           }
-        } else {
-          console.log(`Model ${item} does not have a GLTF/GLB file.`);
         }
-      } else {
-        console.log(`Model ${item} does not have a glTF folder.`);
       }
     }
   });

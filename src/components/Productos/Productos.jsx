@@ -4,7 +4,7 @@ import ProductList from './ProductList';
 import './Productos.css';
 
 function Productos() {
-  const [modelPath, setModelPath] = useState('/models/car/dosivac/glTF/Dvr new.glb');
+  const [modelPath, setModelPath] = useState(null);
   const [productDescription, setProductDescription] = useState('');
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [newCharacteristic, setNewCharacteristic] = useState('');
@@ -205,20 +205,24 @@ function Productos() {
         />
       </div>
       <div className="product-3d">
-        <ThreeDCanvas 
-          modelPath={modelPath}
-          lightIntensity={lightIntensity}
-          setLightIntensity={setLightIntensity}
-          spotLightIntensity={spotLightIntensity}
-          setSpotLightIntensity={setSpotLightIntensity}
-          lightPosition={lightPosition}
-          setLightPosition={setLightPosition}
-          isAnimating={isAnimating}
-          setIsAnimating={setIsAnimating}
-          rotationSpeed={rotationSpeed}
-          setRotationSpeed={setRotationSpeed}
-          saveSettings={updateSettings}
-        />
+        {modelPath ? (
+          <ThreeDCanvas 
+            modelPath={modelPath}
+            lightIntensity={lightIntensity}
+            setLightIntensity={setLightIntensity}
+            spotLightIntensity={spotLightIntensity}
+            setSpotLightIntensity={setSpotLightIntensity}
+            lightPosition={lightPosition}
+            setLightPosition={setLightPosition}
+            isAnimating={isAnimating}
+            setIsAnimating={setIsAnimating}
+            rotationSpeed={rotationSpeed}
+            setRotationSpeed={setRotationSpeed}
+            saveSettings={updateSettings}
+          />
+        ) : (
+          <div>A la espera de mostrar un producto 3D</div>
+        )}
       </div>
       {selectedProduct && (
         <div className="product-description">

@@ -1,6 +1,7 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+const multer = require('multer');
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -27,16 +28,61 @@ if (!fs.existsSync(setterProductPath)) {
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 
+// Configurar Multer para almacenar archivos en la carpeta 'public/models'
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, path.join(__dirname, 'public', 'models'));
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
+  }
+});
+
+const upload = multer({ storage: storage });
+
+// Ruta para cargar un nuevo archivo GLB
+app.post('/api/upload', upload.single('file'), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ message: 'No se ha podido subir el producto' });
+  }
+
+  const modelName = path.basename(req.file.originalname, path.extname(req.file.originalname));
+  const modelPath = `/models/${req.file.originalname}`;
+
+  const descriptions = JSON.parse(fs.readFileSync(productosDescriptionPath, 'utf8'));
+
+  const existingProduct = descriptions.find(product => product.name === modelName);
+  if (existingProduct) {
+    existingProduct.path = modelPath;
+  } else {
+    descriptions.push({ name: modelName, description: '', path: modelPath });
+  }
+
+  fs.writeFileSync(productosDescriptionPath, JSON.stringify(descriptions, null, 2));
+  res.status(200).json({ message: 'producto subido exitosamente', file: req.file });
+});
+
 // Función para registrar productos automáticamente
 function registerProducts(models) {
   const descriptions = JSON.parse(fs.readFileSync(productosDescriptionPath, 'utf8'));
   models.forEach(model => {
-    if (!descriptions.some(product => product.name === model.name)) {
-      descriptions.push({ name: model.name, description: '' });
+    const existingProduct = descriptions.find(product => product.name === model.name);
+    if (existingProduct) {
+      existingProduct.path = model.path;
+    } else {
+      descriptions.push({ name: model.name, description: '', path: model.path });
     }
   });
   fs.writeFileSync(productosDescriptionPath, JSON.stringify(descriptions, null, 2));
 }
+
+// API endpoint para obtener modelos y registrar productos automáticamente
+app.get('/api/models', (req, res) => {
+  const getGLTFFiles = require('./scripts/getModels');
+  const result = getGLTFFiles();
+  registerProducts(result.models);
+  res.json(result);
+});
 
 // API endpoint para obtener las descripciones de productos
 app.get('/api/product-descriptions', (req, res) => {
@@ -100,14 +146,6 @@ app.post('/api/product-settings', (req, res) => {
 app.get('/api/product-settings', (req, res) => {
   const settings = JSON.parse(fs.readFileSync(setterProductPath, 'utf8'));
   res.json(settings);
-});
-
-// API endpoint para obtener modelos y registrar productos automáticamente
-app.get('/api/models', (req, res) => {
-  const getGLTFFiles = require('./scripts/getModels');
-  const result = getGLTFFiles();
-  registerProducts(result.models);
-  res.json(result);
 });
 
 // API endpoint para obtener un producto por su nombre

@@ -1,65 +1,25 @@
 [
   {
-    "name": "ajedrez",
-    "description": "Partida de ajedrez mundial e internacional total",
+    "name": "casco",
+    "description": "Casco militar para protección adecuada",
+    "path": "/models/casco.glb",
     "caracteristicas": [
-      "Material: Madera de alta calidad",
-      "Número de piezas: 33",
-      "Tamaño del tablero: 40x40 cm",
-      "Acabado: Laca brillante",
-      "Peso: 1.5 kg"
-    ],
-    "path": "/models/car/ajedrez/glTF/chess_set_4k.glb"
+      "Materia: Kelblack"
+    ]
   },
   {
-    "name": "dosivac",
-    "description": "Mala bomba.",
-    "caracteristicas": [
-      "Potencia: 1.5 HP",
-      "Material: Aluminio reforzado",
-      "Capacidad: 200 litros",
-      "Velocidad máxima: 3000 RPM",
-      "Consumo energético: 1.2 kWh"
-    ],
-    "path": "/models/car/dosivac/glTF/Dvr new.glb"
+    "name": "chess_set_4k",
+    "description": "",
+    "path": "/models/chess_set_4k.glb"
   },
   {
-    "name": "zapatillas charly",
-    "description": "Estas son las zapatillas de Charly.",
+    "name": "Dvr6nuevaGen",
+    "description": "Bomba de vacío Dosivac DVR6 New Gen de 2 etapas",
+    "path": "/models/Dvr6nuevaGen.glb",
     "caracteristicas": [
-      "Tamaño: 42",
-      "Material: Cuero sintético",
-      "Color: Negro y rojo",
-      "Peso: 300 g cada una",
-      "Suela: Antideslizante",
-      "Apta todo terreno"
-    ],
-    "path": "/models/car/zapatillas charly/glTF/zapatilla charly.glb"
-  },
-  {
-    "name": "BarramundiFish",
-    "description": "pez del amazonas poco común",
-    "caracteristicas": [
-      "Longitud: 50 cm",
-      "Peso: 2.5 kg",
-      "Color: Plateado",
-      "Hábitat: Agua salada y dulce",
-      "Esperanza de vida: 20 años",
-      "Link de descarga: www.manual.com",
-      "me da verguenza no se de que"
-    ],
-    "path": "/models/car/BarramundiFish/glTF/BarramundiFish.gltf"
-  },
-  {
-    "name": "ratita",
-    "description": "Descripción del producto ratita.",
-    "caracteristicas": [
-      "Tamaño: 15 cm",
-      "Peso: 250 g",
-      "Color: Gris",
-      "Dieta: Omnívora",
-      "Esperanza de vida: 2-3 años"
-    ],
-    "path": "/models/car/ratita/glTF/street_rat_4k.glb"
+      "Motor: 1hp",
+      "Tipo de motor: Brushless",
+      "Apto: gases de nueva generación 600 inflamables"
+    ]
   }
 ]

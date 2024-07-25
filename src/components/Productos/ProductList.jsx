@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 const ProductList = ({ setModelPath, setProductDescription, setSelectedProduct, setCharacteristics }) => {
   const [data, setData] = useState(null);
   const [showList, setShowList] = useState(true);
+  const [file, setFile] = useState(null);
 
   const fetchProducts = async () => {
     try {
@@ -44,9 +45,41 @@ const ProductList = ({ setModelPath, setProductDescription, setSelectedProduct, 
     }
   };
 
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
+  const handleUpload = async () => {
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        alert('File uploaded successfully');
+        fetchProducts();
+      } else {
+        alert('Failed to upload file');
+      }
+    } catch (error) {
+      console.error('Failed to upload file:', error);
+      alert('Failed to upload file');
+    }
+  };
+
   return (
     <div>
       <button onClick={fetchProducts}>Reconocer Productos Instalados</button>
+      <div>
+        <input type="file" onChange={handleFileChange} />
+        <button onClick={handleUpload}>Instalar Nuevo Producto</button>
+      </div>
       {data && showList && (
         <div>
           <button onClick={() => setShowList(false)}>Ocultar Lista</button>
