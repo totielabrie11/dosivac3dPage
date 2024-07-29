@@ -1,9 +1,69 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { DndProvider, useDrag, useDrop } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import ThreeDCanvas from '../ThreeDCanvas/ThreeDCanvas';
 import ProductList from './ProductList';
 import ProductFilter from './ProductFilter';
 import ProductCards from './ProductCards';
 import './Productos.css';
+
+const ItemType = {
+  CHARACTERISTIC: 'characteristic',
+};
+
+const Characteristic = ({ characteristic, index, moveCharacteristic, handleEditCharacteristic, handleDeleteCharacteristic, handleChangeCharacteristic, handleBlurCharacteristic, editingIndex }) => {
+  const ref = useRef(null);
+  const [{ isDragging }, drag] = useDrag({
+    type: ItemType.CHARACTERISTIC,
+    item: { index },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  });
+
+  const [, drop] = useDrop({
+    accept: ItemType.CHARACTERISTIC,
+    hover: (draggedItem) => {
+      if (draggedItem.index !== index) {
+        moveCharacteristic(draggedItem.index, index);
+        draggedItem.index = index;
+      }
+    },
+  });
+
+  drag(drop(ref));
+
+  return (
+    <li ref={ref} style={{ opacity: isDragging ? 0.5 : 1 }} className={isDragging ? 'grabbing' : 'grab'}>
+      {editingIndex === index ? (
+        <input
+          type="text"
+          value={characteristic}
+          onChange={(e) => handleChangeCharacteristic(e, index)}
+          onBlur={() => handleBlurCharacteristic(index)}
+        />
+      ) : (
+        <>
+          {characteristic}
+          <div className="icon-container">
+            <span
+              className="edit-icon"
+              onClick={() => handleEditCharacteristic(index)}
+            >
+              ✏️
+            </span>
+            <span
+              className="delete-icon"
+              onClick={() => handleDeleteCharacteristic(index)}
+            >
+              🗑️
+            </span>
+          </div>
+        </>
+      )}
+    </li>
+  );
+};
 
 function Productos({ isAdmin }) {
   const [products, setProducts] = useState([]);
@@ -175,7 +235,7 @@ function Productos({ isAdmin }) {
       }
     } catch (error) {
       console.error('Failed to fetch product descriptions:', error);
-      setProductDescription('No description available for this product.');
+      setProductDescription('No description available for este producto.');
       setSelectedProduct(name);
       setCharacteristics([]);
     }
@@ -235,6 +295,14 @@ function Productos({ isAdmin }) {
     setFilteredProducts(filtered);
   };
 
+  const moveCharacteristic = (dragIndex, hoverIndex) => {
+    const updatedCharacteristics = [...characteristics];
+    const [removed] = updatedCharacteristics.splice(dragIndex, 1);
+    updatedCharacteristics.splice(hoverIndex, 0, removed);
+    setCharacteristics(updatedCharacteristics);
+    updateCharacteristics(updatedCharacteristics);
+  };
+
   if (!isAdmin) {
     return (
       <div className="productos-container">
@@ -251,106 +319,90 @@ function Productos({ isAdmin }) {
   }
 
   return (
-    <div className="productos-container">
-      <div className="left-column">
-        <ProductList
-          setModelPath={setModelPath}
-          setProductDescription={setProductDescription}
-          setSelectedProduct={setSelectedProduct}
-          setCharacteristics={setCharacteristics}
-          handleProductClick={handleProductClick}
-        />
-      </div>
-      <div className="center-column">
-        {selectedProduct && (
-          <div className="product-description">
-            <h2>Descripción del Producto</h2>
-            {isEditingDescription ? (
-              <textarea
-                ref={inputRef}
-                value={productDescription}
-                onChange={(e) => setProductDescription(e.target.value)}
-                onBlur={handleBlurDescription}
-              />
-            ) : (
-              <p>
-                {productDescription}
-                <span
-                  className="edit-icon"
-                  onClick={handleEditDescription}
-                >
-                  ✏️
-                </span>
-              </p>
-            )}
-            <div>
-              <h3>Características</h3>
-              <ul>
-                {characteristics.map((char, index) => (
-                  <li key={index}>
-                    {editingIndex === index ? (
-                      <input
-                        ref={inputRef}
-                        type="text"
-                        value={char}
-                        onChange={(e) => handleChangeCharacteristic(e, index)}
-                        onBlur={() => handleBlurCharacteristic(index)}
-                      />
-                    ) : (
-                      <>
-                        {char}
-                        <div className="icon-container">
-                          <span
-                            className="edit-icon"
-                            onClick={() => handleEditCharacteristic(index)}
-                          >
-                            ✏️
-                          </span>
-                          <span
-                            className="delete-icon"
-                            onClick={() => handleDeleteCharacteristic(index)}
-                          >
-                            🗑️
-                          </span>
-                        </div>
-                      </>
-                    )}
-                  </li>
-                ))}
-              </ul>
-              <input
-                type="text"
-                value={newCharacteristic}
-                onChange={(e) => setNewCharacteristic(e.target.value)}
-                placeholder="Nueva característica"
-              />
-              <button onClick={handleAddCharacteristic}>Agregar Característica</button>
-              <button onClick={handleRemoveCharacteristic}>Quitar Última Característica</button>
-            </div>
-          </div>
-        )}
-      </div>
-      <div className="right-column">
-        {modelPath ? (
-          <ThreeDCanvas 
-            modelPath={modelPath}
-            lightIntensity={lightIntensity}
-            setLightIntensity={setLightIntensity}
-            spotLightIntensity={spotLightIntensity}
-            setSpotLightIntensity={setSpotLightIntensity}
-            lightPosition={lightPosition}
-            setLightPosition={setLightPosition}
-            isAnimating={isAnimating}
-            setIsAnimating={setIsAnimating}
-            rotationSpeed={rotationSpeed}
-            setRotationSpeed={setRotationSpeed}
-            saveSettings={updateSettings}
+    <DndProvider backend={HTML5Backend}>
+      <div className="productos-container">
+        <div className="left-column">
+          <ProductList
+            setModelPath={setModelPath}
+            setProductDescription={setProductDescription}
+            setSelectedProduct={setSelectedProduct}
+            setCharacteristics={setCharacteristics}
+            handleProductClick={handleProductClick}
           />
-        ) : (
-          <div>A la espera de mostrar un producto 3D</div>
-        )}
+        </div>
+        <div className="center-column">
+          {selectedProduct && (
+            <div className="product-description">
+              <h2>Descripción del Producto</h2>
+              {isEditingDescription ? (
+                <textarea
+                  ref={inputRef}
+                  value={productDescription}
+                  onChange={(e) => setProductDescription(e.target.value)}
+                  onBlur={handleBlurDescription}
+                />
+              ) : (
+                <p>
+                  {productDescription}
+                  <span
+                    className="edit-icon"
+                    onClick={handleEditDescription}
+                  >
+                    ✏️
+                  </span>
+                </p>
+              )}
+              <div>
+                <h3>Características</h3>
+                <ul>
+                  {characteristics.map((char, index) => (
+                    <Characteristic
+                      key={index}
+                      characteristic={char}
+                      index={index}
+                      moveCharacteristic={moveCharacteristic}
+                      handleEditCharacteristic={handleEditCharacteristic}
+                      handleDeleteCharacteristic={handleDeleteCharacteristic}
+                      handleChangeCharacteristic={handleChangeCharacteristic}
+                      handleBlurCharacteristic={handleBlurCharacteristic}
+                      editingIndex={editingIndex}
+                    />
+                  ))}
+                </ul>
+                <input
+                  type="text"
+                  value={newCharacteristic}
+                  onChange={(e) => setNewCharacteristic(e.target.value)}
+                  placeholder="Nueva característica"
+                />
+                <button onClick={handleAddCharacteristic}>Agregar Característica</button>
+                <button onClick={handleRemoveCharacteristic}>Quitar Última Característica</button>
+              </div>
+            </div>
+          )}
+        </div>
+        <div className="right-column">
+          {modelPath ? (
+            <ThreeDCanvas 
+              modelPath={modelPath}
+              lightIntensity={lightIntensity}
+              setLightIntensity={setLightIntensity}
+              spotLightIntensity={spotLightIntensity}
+              setSpotLightIntensity={setSpotLightIntensity}
+              lightPosition={lightPosition}
+              setLightPosition={setLightPosition}
+              isAnimating={isAnimating}
+              setIsAnimating={setIsAnimating}
+              rotationSpeed={rotationSpeed}
+              setRotationSpeed={setRotationSpeed}
+              saveSettings={updateSettings}
+            />
+          ) : (
+            <div>A la espera de mostrar un producto 3D</div>
+          )}
+        </div>
       </div>
-    </div>
+    </DndProvider>
   );
 }
 

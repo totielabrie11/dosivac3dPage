@@ -126,6 +126,7 @@ app.post('/api/product-descriptions', (req, res) => {
 });
 
 // API endpoint para actualizar las características de un producto
+// API endpoint para actualizar las características de un producto
 app.post('/api/product-characteristics', (req, res) => {
   const { name, characteristics } = req.body;
   const descriptions = JSON.parse(fs.readFileSync(productosDescriptionPath, 'utf8'));

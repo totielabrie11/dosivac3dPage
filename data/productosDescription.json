@@ -12,9 +12,11 @@
     "description": "Bomba de vacío Dosivac DVR6 New Gen de 2 etapas",
     "path": "/models/Dvr6nuevaGen.glb",
     "caracteristicas": [
-      "Motor: 1hp",
-      "Tipo de motor: Brushless",
-      "Apto: gases de nueva generación 600 inflamables"
+      "Tipo de Producto: Bomba de vacío",
+      "Aplicación: Refrigeración",
+      "Motor: Tipo brusheless",
+      "Apto: gases de nueva generación 600 inflamables",
+      "Tipo de gases: R22 - R132 otros"
     ]
   },
   {
@@ -34,10 +36,29 @@
   },
   {
     "name": "bomba",
-    "description": "Bomba para uso en petroleo",
+    "description": "Soplador tipo ROOTS  DS-DSV",
     "path": "/models/bomba.glb",
     "caracteristicas": [
-      "Caudal: 10 a 500 litros"
+      "Tipo de producto: soplador ",
+      "configurable: vacío - presión",
+      "Caudal: 30 m3/h a 2800 m3/h",
+      "Presión positiva: hasta 800 mbar",
+      "Presión negativa: hasta -500 mbar"
+    ]
+  },
+  {
+    "name": "29_7_2024",
+    "description": "",
+    "path": "/models/29_7_2024.glb"
+  },
+  {
+    "name": "Mi-Emd",
+    "description": "Bomba Dosificadora MI-EMD",
+    "path": "/models/Mi-Emd.glb",
+    "caracteristicas": [
+      "Tipo de Producto: Bomba Dosificadora",
+      "Aplicación: Tratamiento de aguas",
+      "Rango de caudal:  0.01 lts/h   -  16 lts/h"
     ]
   }
 ]

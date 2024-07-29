@@ -133,7 +133,19 @@
   },
   {
     "name": "Moto Guzzi",
-    "lightIntensity": 4.2,
+    "lightIntensity": 1,
+    "spotLightIntensity": 1,
+    "lightPosition": [
+      10,
+      10,
+      10
+    ],
+    "isAnimating": true,
+    "rotationSpeed": 0.006
+  },
+  {
+    "name": "bomba",
+    "lightIntensity": 1,
     "spotLightIntensity": 1,
     "lightPosition": [
       10,
@@ -144,15 +156,15 @@
     "rotationSpeed": 0.01
   },
   {
-    "name": "bomba",
-    "lightIntensity": 3.7,
+    "name": "Mi-Emd",
+    "lightIntensity": 4.3,
     "spotLightIntensity": 1,
     "lightPosition": [
-      -8.3,
+      10,
       10,
       10
     ],
     "isAnimating": true,
-    "rotationSpeed": 0.003
+    "rotationSpeed": 0.004
   }
 ]

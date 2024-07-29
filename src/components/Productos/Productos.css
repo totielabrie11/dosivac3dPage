@@ -187,3 +187,11 @@ p .edit-icon {
 .product-3d {
   text-align: center;
 }
+
+.grab {
+  cursor: grab;
+}
+
+.grabbing {
+  cursor: grabbing;
+}
