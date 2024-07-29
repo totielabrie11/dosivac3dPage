@@ -1,13 +1,5 @@
 [
   {
-    "name": "casco",
-    "description": "Casco militar para protección adecuada",
-    "path": "/models/casco.glb",
-    "caracteristicas": [
-      "Materia: Kelblack"
-    ]
-  },
-  {
     "name": "Dvr6nuevaGen",
     "description": "Bomba de vacío Dosivac DVR6 New Gen de 2 etapas",
     "path": "/models/Dvr6nuevaGen.glb",
@@ -20,36 +12,17 @@
     ]
   },
   {
-    "name": "Fujifilm X-S10",
-    "description": "",
-    "path": "/models/Fujifilm X-S10.glb"
-  },
-  {
-    "name": "Moto Guzzi",
-    "description": "",
-    "path": "/models/Moto Guzzi.glb"
-  },
-  {
-    "name": "Classic BMW CAFE motorcycle",
-    "description": "",
-    "path": "/models/Classic BMW CAFE motorcycle.glb"
-  },
-  {
     "name": "bomba",
     "description": "Soplador tipo ROOTS  DS-DSV",
     "path": "/models/bomba.glb",
     "caracteristicas": [
       "Tipo de producto: soplador ",
+      "Aplicación: Tratamiento de aguas",
       "configurable: vacío - presión",
       "Caudal: 30 m3/h a 2800 m3/h",
       "Presión positiva: hasta 800 mbar",
       "Presión negativa: hasta -500 mbar"
     ]
-  },
-  {
-    "name": "29_7_2024",
-    "description": "",
-    "path": "/models/29_7_2024.glb"
   },
   {
     "name": "Mi-Emd",
@@ -59,6 +32,15 @@
       "Tipo de Producto: Bomba Dosificadora",
       "Aplicación: Tratamiento de aguas",
       "Rango de caudal:  0.01 lts/h   -  16 lts/h"
+    ]
+  },
+  {
+    "name": "bomba periferica",
+    "description": "Bomba Periferica 1/2 Hp",
+    "path": "/models/bomba periferica.glb",
+    "caracteristicas": [
+      "Tipo de producto: bomba periferica",
+      "Tipo de aplicación:  elevación de agua"
     ]
   }
 ]
