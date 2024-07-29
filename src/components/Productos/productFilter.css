@@ -39,6 +39,10 @@
     gap: 8px; /* Añadimos un gap para separar los elementos */
     flex-wrap: wrap; /* Permitir que los elementos se envuelvan */
   }
+
+  .range-inputs input {
+    color: black;
+  }
   
   .range-inputs input[type="range"] {
     flex: 1 1 auto; /* Permitir que los elementos de rango se ajusten automáticamente */
