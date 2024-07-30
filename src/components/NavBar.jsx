@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, Nav, Button } from 'react-bootstrap';
+import { Navbar, Nav, Button, NavDropdown } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 function NavBar({ isAdmin, handleLogout }) {
@@ -11,6 +11,11 @@ function NavBar({ isAdmin, handleLogout }) {
         <Nav className="mr-auto">
           <Nav.Link as={Link} to="/">Home</Nav.Link>
           <Nav.Link as={Link} to="/productos">Productos</Nav.Link>
+          {isAdmin && (
+            <NavDropdown title="Administrador" id="admin-dropdown">
+              <NavDropdown.Item as={Link} to="/admin/productos">Administrar productos</NavDropdown.Item>
+            </NavDropdown>
+          )}
         </Nav>
         {isAdmin && (
           <Button variant="outline-danger" onClick={handleLogout}>
