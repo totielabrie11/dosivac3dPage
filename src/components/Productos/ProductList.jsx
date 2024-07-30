@@ -16,7 +16,7 @@ const ProductList = ({ setModelPath, setProductDescription, setSelectedProduct, 
       setData(result);
     } catch (error) {
       console.error('Failed to fetch products:', error);
-      setData({ gltfCount: 0, glbCount: 0, gltfNames: [], glbNames: [] });
+      setData({ gltfCount: 0, glbCount: 0, jpgCount: 0, pngCount: 0, gltfNames: [], glbNames: [], jpgNames: [], pngNames: [] });
     }
   };
 
@@ -100,6 +100,34 @@ const ProductList = ({ setModelPath, setProductDescription, setSelectedProduct, 
           <h3>Total GLB models found: {data.glbCount}</h3>
           <ul>
             {data.glbNames && data.glbNames.map((model, index) => (
+              <li key={index}>
+                {index + 1}) {model.name}
+                <button onClick={() => { setModelPath(model.path); fetchProductDescription(model.name); }}>
+                  Editar
+                </button>
+                <Link to={`/productos/${model.name}`}>
+                  <button>Ver Producto</button>
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <h3>Total JPG images found: {data.jpgCount}</h3>
+          <ul>
+            {data.jpgNames && data.jpgNames.map((model, index) => (
+              <li key={index}>
+                {index + 1}) {model.name}
+                <button onClick={() => { setModelPath(model.path); fetchProductDescription(model.name); }}>
+                  Editar
+                </button>
+                <Link to={`/productos/${model.name}`}>
+                  <button>Ver Producto</button>
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <h3>Total PNG images found: {data.pngCount}</h3>
+          <ul>
+            {data.pngNames && data.pngNames.map((model, index) => (
               <li key={index}>
                 {index + 1}) {model.name}
                 <button onClick={() => { setModelPath(model.path); fetchProductDescription(model.name); }}>

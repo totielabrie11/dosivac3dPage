@@ -81,14 +81,25 @@ function Productos({ isAdmin }) {
   const [isAnimating, setIsAnimating] = useState(false);
   const [rotationSpeed, setRotationSpeed] = useState(0.01);
   const inputRef = useRef(null);
+  const [filters, setFilters] = useState({
+    tipoBomba: '',
+    tipoAplicacion: '',
+    tipoIndustria: '',
+    marcaBomba: '',
+    materiales: '',
+    presionMin: 0,
+    presionMax: 900,
+    caudalMin: 0,
+    caudalMax: 1200,
+  });
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch('/api/products');
+        const response = await fetch('/api/product-descriptions');
         const data = await response.json();
         setProducts(data);
-        setFilteredProducts(data);
+        setFilteredProducts(data); // Initialize filteredProducts with all products
       } catch (error) {
         console.error('Failed to fetch products:', error);
       }
@@ -272,26 +283,33 @@ function Productos({ isAdmin }) {
     }
   };
 
-  const handleFilter = (filters) => {
+  const handleFilter = (newFilters) => {
+    setFilters(newFilters);
     let filtered = products;
     // Apply filters to products
-    if (filters.tipoBomba) {
-      filtered = filtered.filter(p => p.tipoBomba === filters.tipoBomba);
+    if (newFilters.tipoBomba) {
+      filtered = filtered.filter(p => p.caracteristicas.some(c => c.includes(`Tipo de Producto: ${newFilters.tipoBomba}`)));
     }
-    if (filters.tipoAplicacion) {
-      filtered = filtered.filter(p => p.tipoAplicacion === filters.tipoAplicacion);
+    if (newFilters.tipoAplicacion) {
+      filtered = filtered.filter(p => p.caracteristicas.some(c => c.includes(`Aplicación: ${newFilters.tipoAplicacion}`)));
     }
-    if (filters.tipoIndustria) {
-      filtered = filtered.filter(p => p.tipoIndustria === filters.tipoIndustria);
+    if (newFilters.tipoIndustria) {
+      filtered = filtered.filter(p => p.caracteristicas.some(c => c.includes(`Industria: ${newFilters.tipoIndustria}`)));
     }
-    if (filters.marcaBomba) {
-      filtered = filtered.filter(p => p.marcaBomba === filters.marcaBomba);
+    if (newFilters.marcaBomba) {
+      filtered = filtered.filter(p => p.caracteristicas.some(c => c.includes(`Marca: ${newFilters.marcaBomba}`)));
     }
-    if (filters.materiales) {
-      filtered = filtered.filter(p => p.materiales.includes(filters.materiales));
+    if (newFilters.materiales) {
+      filtered = filtered.filter(p => p.caracteristicas.some(c => c.includes(`Materiales: ${newFilters.materiales}`)));
     }
-    filtered = filtered.filter(p => p.presion >= filters.presionMin && p.presion <= filters.presionMax);
-    filtered = filtered.filter(p => p.caudal >= filters.caudalMin && p.caudal <= filters.caudalMax);
+    filtered = filtered.filter(p => {
+      const presion = parseInt(p.caracteristicas.find(c => c.includes('Presión'))?.match(/\d+/) || 0, 10);
+      return presion >= newFilters.presionMin && presion <= newFilters.presionMax;
+    });
+    filtered = filtered.filter(p => {
+      const caudal = parseInt(p.caracteristicas.find(c => c.includes('Caudal'))?.match(/\d+/) || 0, 10);
+      return caudal >= newFilters.caudalMin && caudal <= newFilters.caudalMax;
+    });
     setFilteredProducts(filtered);
   };
 
@@ -306,13 +324,11 @@ function Productos({ isAdmin }) {
   if (!isAdmin) {
     return (
       <div className="productos-container">
-        <div className="row">
-          <div className="col-md-3">
-            <ProductFilter onFilter={handleFilter} />
-          </div>
-          <div className="col-md-9">
-            <ProductCards products={filteredProducts} />
-          </div>
+        <div className="left-column">
+          <ProductFilter onFilter={handleFilter} />
+        </div>
+        <div className="center-column">
+          <ProductCards products={filteredProducts} />
         </div>
       </div>
     );

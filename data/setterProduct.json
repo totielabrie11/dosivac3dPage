@@ -157,6 +157,30 @@
   },
   {
     "name": "Mi-Emd",
+    "lightIntensity": 2.3,
+    "spotLightIntensity": 1,
+    "lightPosition": [
+      -6.7,
+      -5.4,
+      -6.4
+    ],
+    "isAnimating": false,
+    "rotationSpeed": 0.041
+  },
+  {
+    "name": "bomba periferica",
+    "lightIntensity": 1,
+    "spotLightIntensity": 1,
+    "lightPosition": [
+      10,
+      10,
+      10
+    ],
+    "isAnimating": false,
+    "rotationSpeed": 0.01
+  },
+  {
+    "name": "EMD-PLUS",
     "lightIntensity": 1,
     "spotLightIntensity": 1,
     "lightPosition": [
@@ -168,15 +192,75 @@
     "rotationSpeed": 0.002
   },
   {
-    "name": "bomba periferica",
-    "lightIntensity": 3.2,
+    "name": "EMD",
+    "lightIntensity": 1,
     "spotLightIntensity": 1,
     "lightPosition": [
-      4.3,
-      12.8,
+      10,
+      10,
       10
     ],
-    "isAnimating": true,
-    "rotationSpeed": 0.003
+    "isAnimating": false,
+    "rotationSpeed": 0.01
+  },
+  {
+    "name": "DEN",
+    "lightIntensity": 2.3,
+    "spotLightIntensity": 1,
+    "lightPosition": [
+      -6.7,
+      -5.4,
+      -6.4
+    ],
+    "isAnimating": false,
+    "rotationSpeed": 0.041
+  },
+  {
+    "name": "DECI",
+    "lightIntensity": 2.3,
+    "spotLightIntensity": 1,
+    "lightPosition": [
+      -6.7,
+      -5.4,
+      -6.4
+    ],
+    "isAnimating": false,
+    "rotationSpeed": 0.041
+  },
+  {
+    "name": "DEAP",
+    "lightIntensity": 1,
+    "spotLightIntensity": 1,
+    "lightPosition": [
+      10,
+      10,
+      10
+    ],
+    "isAnimating": false,
+    "rotationSpeed": 0.01
+  },
+  {
+    "name": "DSHC",
+    "lightIntensity": 1,
+    "spotLightIntensity": 1,
+    "lightPosition": [
+      10,
+      10,
+      10
+    ],
+    "isAnimating": false,
+    "rotationSpeed": 0.01
+  },
+  {
+    "name": "DVR2",
+    "lightIntensity": 1,
+    "spotLightIntensity": 1,
+    "lightPosition": [
+      10,
+      10,
+      10
+    ],
+    "isAnimating": false,
+    "rotationSpeed": 0.01
   }
 ]

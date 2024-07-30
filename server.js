@@ -65,7 +65,14 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
     return res.status(400).json({ message: 'No se ha podido subir el producto' });
   }
 
-  const modelName = path.basename(req.file.originalname, path.extname(req.file.originalname));
+  const fileExtension = path.extname(req.file.originalname).toLowerCase();
+  const validExtensions = ['.glb', '.gltf', '.jpg', '.png'];
+
+  if (!validExtensions.includes(fileExtension)) {
+    return res.status(400).json({ message: 'Tipo de archivo no soportado' });
+  }
+
+  const modelName = path.basename(req.file.originalname, fileExtension);
   const modelPath = `/models/${req.file.originalname}`;
 
   const descriptions = JSON.parse(fs.readFileSync(productosDescriptionPath, 'utf8'));
@@ -78,7 +85,7 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
   }
 
   fs.writeFileSync(productosDescriptionPath, JSON.stringify(descriptions, null, 2));
-  res.status(200).json({ message: 'producto subido exitosamente', file: req.file });
+  res.status(200).json({ message: 'Producto subido exitosamente', file: req.file });
 });
 
 // Función para registrar productos automáticamente

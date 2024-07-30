@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './productFilter.css';
+import './ProductFilter.css';  // Asegúrate de que esta línea esté presente
 
 const ProductFilter = ({ onFilter }) => {
   const [filters, setFilters] = useState({
@@ -16,6 +16,7 @@ const ProductFilter = ({ onFilter }) => {
 
   const [tipoProductoOptions, setTipoProductoOptions] = useState([]);
   const [aplicacionOptions, setAplicacionOptions] = useState([]);
+  const [allAplicacionOptions, setAllAplicacionOptions] = useState([]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -47,6 +48,7 @@ const ProductFilter = ({ onFilter }) => {
         });
       });
       setTipoProductoOptions([...tiposDeProducto]);
+      setAllAplicacionOptions([...tiposDeAplicacion]);
       setAplicacionOptions([...tiposDeAplicacion]);
     } catch (error) {
       console.error('Failed to fetch product descriptions:', error);
@@ -56,6 +58,18 @@ const ProductFilter = ({ onFilter }) => {
   useEffect(() => {
     fetchProductos();
   }, []);
+
+  useEffect(() => {
+    if (filters.tipoBomba === 'Bomba de vacío') {
+      setAplicacionOptions(['Refrigeración', 'Vacío industrial']);
+    } else if (filters.tipoBomba === 'soplador') {
+      setAplicacionOptions(allAplicacionOptions.filter(option => !['Refrigeración', 'Vacío industrial'].includes(option)));
+    } else if (filters.tipoBomba === 'Bomba Dosificadora') {
+      setAplicacionOptions(allAplicacionOptions.filter(option => !['Refrigeración', 'Vacío industrial'].includes(option)));
+    } else {
+      setAplicacionOptions(allAplicacionOptions);
+    }
+  }, [filters.tipoBomba, allAplicacionOptions]);
 
   useEffect(() => {
     onFilter(filters);

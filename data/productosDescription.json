@@ -31,7 +31,8 @@
     "caracteristicas": [
       "Tipo de Producto: Bomba Dosificadora",
       "Aplicación: Tratamiento de aguas",
-      "Rango de caudal:  0.01 lts/h   -  16 lts/h"
+      "Rango de caudal:  0.01 lts/h   -  16 lts/h",
+      "Otras Características:  reemplazo de bomba Milenio "
     ]
   },
   {
@@ -41,6 +42,68 @@
     "caracteristicas": [
       "Tipo de producto: bomba periferica",
       "Tipo de aplicación:  elevación de agua"
+    ]
+  },
+  {
+    "name": "EMD-PLUS",
+    "description": "Bomba Dosificadora EMD-PLUS",
+    "path": "/models/EMD-PLUS.png",
+    "caracteristicas": [
+      "Tipo de Producto: Bomba Dosificadora",
+      "Aplicación: Tratamiento de aguas",
+      "Otras Características:  capacidad seguidora 4-20 o Digital."
+    ]
+  },
+  {
+    "name": "DEAP",
+    "description": "Bomba Dosificadora DEAP",
+    "path": "/models/DEAP.png",
+    "caracteristicas": [
+      "Tipo de Producto: Bomba Dosificadora"
+    ]
+  },
+  {
+    "name": "DEN",
+    "description": "Bomba Dosificadora DEN",
+    "path": "/models/DEN.png",
+    "caracteristicas": [
+      "Tipo de Producto: Bomba Dosificadora"
+    ]
+  },
+  {
+    "name": "DECI",
+    "description": "Bomba Dosificadora DECI",
+    "path": "/models/DECI.png",
+    "caracteristicas": [
+      "Tipo de Producto: Bomba Dosificadora",
+      "Aplicación: sistemas de alta presión"
+    ]
+  },
+  {
+    "name": "EMD",
+    "description": "Bomba Dosificadora EMD",
+    "path": "/models/EMD.png",
+    "caracteristicas": [
+      "Tipo de Producto: Bomba Dosificadora",
+      "Aplicación: Tratamiento de aguas"
+    ]
+  },
+  {
+    "name": "DVR2",
+    "description": "",
+    "path": "/models/DVR2.png",
+    "caracteristicas": [
+      "Tipo de Producto: Bomba de vacío",
+      "Aplicación: Refrigeración"
+    ]
+  },
+  {
+    "name": "DSHC",
+    "description": "Bomba de Vacío DSHC ",
+    "path": "/models/DSHC.png",
+    "caracteristicas": [
+      "Tipo de Producto: Bomba de vacío",
+      "Aplicación: Vacío industrial"
     ]
   }
 ]

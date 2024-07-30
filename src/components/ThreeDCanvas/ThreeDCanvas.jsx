@@ -90,6 +90,8 @@ function ThreeDCanvas({
     if (saveSettings) saveSettings();
   }, [lightIntensity, spotLightIntensity, lightPosition, isAnimating, rotationSpeed, rotationDirection, saveSettings]);
 
+  const isImage = /\.(jpg|png)$/i.test(modelPath);
+
   return (
     <div className="product-3d">
       <button className="toggle-controls-button" onClick={() => setShowControls(!showControls)}>
@@ -172,27 +174,31 @@ function ThreeDCanvas({
           </div>
         </div>
       )}
-      <Canvas
-        key={key} // Usar la clave única aquí para forzar la recarga
-        style={{ height: '100%' }}
-        camera={{ position: [0, 0, 2], fov: 60, near: 0.1, far: 1000 }}
-      >
-        <ambientLight intensity={0.5} />
-        <directionalLight position={lightPosition} intensity={lightIntensity} />
-        <spotLight position={[5, 5, 5]} intensity={spotLightIntensity} angle={0.3} penumbra={1} castShadow />
-        <Suspense fallback={<Html><Loading /></Html>}>
-          {!modelError ? (
-            modelPath ? (
-              <Model key={modelPath} path={modelPath} rotationSpeed={rotationSpeed} isAnimating={isAnimating} rotationDirection={rotationDirection} position={[0, 0, 0]} scale={0.5} onError={handleError} />
+      {isImage ? (
+        <img src={modelPath} alt="Producto" style={{ maxHeight: '100%', maxWidth: '100%' }} />
+      ) : (
+        <Canvas
+          key={key} // Usar la clave única aquí para forzar la recarga
+          style={{ height: '100%' }}
+          camera={{ position: [0, 0, 2], fov: 60, near: 0.1, far: 1000 }}
+        >
+          <ambientLight intensity={0.5} />
+          <directionalLight position={lightPosition} intensity={lightIntensity} />
+          <spotLight position={[5, 5, 5]} intensity={spotLightIntensity} angle={0.3} penumbra={1} castShadow />
+          <Suspense fallback={<Html><Loading /></Html>}>
+            {!modelError ? (
+              modelPath ? (
+                <Model key={modelPath} path={modelPath} rotationSpeed={rotationSpeed} isAnimating={isAnimating} rotationDirection={rotationDirection} position={[0, 0, 0]} scale={0.5} onError={handleError} />
+              ) : (
+                <Html><div>A la espera de mostrar un producto 3D</div></Html>
+              )
             ) : (
-              <Html><div>A la espera de mostrar un producto 3D</div></Html>
-            )
-          ) : (
-            <Html><div>Error al cargar el modelo</div></Html>
-          )}
-        </Suspense>
-        <OrbitControls ref={controlsRef} minDistance={0.1} maxDistance={50} maxPolarAngle={Math.PI} minPolarAngle={0} />
-      </Canvas>
+              <Html><div>Error al cargar el modelo</div></Html>
+            )}
+          </Suspense>
+          <OrbitControls ref={controlsRef} minDistance={0.1} maxDistance={50} maxPolarAngle={Math.PI} minPolarAngle={0} />
+        </Canvas>
+      )}
     </div>
   );
 }
