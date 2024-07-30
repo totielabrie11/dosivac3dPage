@@ -24,28 +24,27 @@ function Productos() {
 
   const handleFilter = (filters) => {
     let filtered = products;
-    // Apply filters to products
     if (filters.tipoBomba) {
-      filtered = filtered.filter(p => p.caracteristicas.some(c => c.includes(`Tipo de Producto: ${filters.tipoBomba}`)));
+      filtered = filtered.filter(p => p.caracteristicas.some(c => c.toLowerCase().includes(`tipo de producto: ${filters.tipoBomba.toLowerCase()}`)));
     }
     if (filters.tipoAplicacion) {
-      filtered = filtered.filter(p => p.caracteristicas.some(c => c.includes(`Aplicación: ${filters.tipoAplicacion}`)));
+      filtered = filtered.filter(p => p.caracteristicas.some(c => c.toLowerCase().includes(`aplicación: ${filters.tipoAplicacion.toLowerCase()}`)));
     }
     if (filters.tipoIndustria) {
-      filtered = filtered.filter(p => p.caracteristicas.some(c => c.includes(`Industria: ${filters.tipoIndustria}`)));
+      filtered = filtered.filter(p => p.caracteristicas.some(c => c.toLowerCase().includes(`industria: ${filters.tipoIndustria.toLowerCase()}`)));
     }
     if (filters.marcaBomba) {
-      filtered = filtered.filter(p => p.caracteristicas.some(c => c.includes(`Marca: ${filters.marcaBomba}`)));
+      filtered = filtered.filter(p => p.caracteristicas.some(c => c.toLowerCase().includes(`marca: ${filters.marcaBomba.toLowerCase()}`)));
     }
     if (filters.materiales) {
-      filtered = filtered.filter(p => p.caracteristicas.some(c => c.includes(`Materiales: ${filters.materiales}`)));
+      filtered = filtered.filter(p => p.caracteristicas.some(c => c.toLowerCase().includes(`materiales: ${filters.materiales.toLowerCase()}`)));
     }
     filtered = filtered.filter(p => {
-      const presion = parseInt(p.caracteristicas.find(c => c.includes('Presión'))?.match(/\d+/) || 0, 10);
+      const presion = parseInt(p.caracteristicas.find(c => c.toLowerCase().includes('presión'))?.match(/\d+/) || 0, 10);
       return presion >= filters.presionMin && presion <= filters.presionMax;
     });
     filtered = filtered.filter(p => {
-      const caudal = parseInt(p.caracteristicas.find(c => c.includes('Caudal'))?.match(/\d+/) || 0, 10);
+      const caudal = parseInt(p.caracteristicas.find(c => c.toLowerCase().includes('caudal'))?.match(/\d+/) || 0, 10);
       return caudal >= filters.caudalMin && caudal <= filters.caudalMax;
     });
     setFilteredProducts(filtered);

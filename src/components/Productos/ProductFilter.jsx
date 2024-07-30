@@ -60,15 +60,19 @@ const ProductFilter = ({ onFilter }) => {
   }, []);
 
   useEffect(() => {
-    if (filters.tipoBomba === 'Bomba de vacío') {
-      setAplicacionOptions(['Refrigeración', 'Vacío industrial']);
-    } else if (filters.tipoBomba === 'soplador') {
-      setAplicacionOptions(allAplicacionOptions.filter(option => !['Refrigeración', 'Vacío industrial'].includes(option)));
-    } else if (filters.tipoBomba === 'Bomba Dosificadora') {
-      setAplicacionOptions(allAplicacionOptions.filter(option => !['Refrigeración', 'Vacío industrial'].includes(option)));
-    } else {
-      setAplicacionOptions(allAplicacionOptions);
-    }
+    const updateAplicacionOptions = () => {
+      if (filters.tipoBomba === 'Bomba de vacío') {
+        setAplicacionOptions(['Refrigeración', 'Vacío industrial']);
+      } else if (filters.tipoBomba === 'soplador') {
+        setAplicacionOptions(allAplicacionOptions.filter(option => !['Refrigeración', 'Vacío industrial'].includes(option)));
+      } else if (filters.tipoBomba === 'Bomba Dosificadora') {
+        setAplicacionOptions(allAplicacionOptions.filter(option => !['Refrigeración', 'Vacío industrial'].includes(option)));
+      } else {
+        setAplicacionOptions(allAplicacionOptions);
+      }
+    };
+
+    updateAplicacionOptions();
   }, [filters.tipoBomba, allAplicacionOptions]);
 
   useEffect(() => {
