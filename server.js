@@ -53,11 +53,12 @@ app.post('/api/login', (req, res) => {
 
   const user = users.find(user => user.username === username && user.password === password);
   if (user) {
-    res.json({ success: true, role: user.role });
+    res.json({ success: true, name: user.username, role: user.role });
   } else {
     res.status(401).json({ success: false, message: 'Invalid credentials' });
   }
 });
+
 
 // Ruta para cargar un nuevo archivo GLB
 app.post('/api/upload', upload.single('file'), (req, res) => {

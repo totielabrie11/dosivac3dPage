@@ -1,8 +1,9 @@
 import React from 'react';
 import { Navbar, Nav, Button, NavDropdown } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { FaCog } from 'react-icons/fa';
 
-function NavBar({ isAdmin, handleLogout }) {
+function NavBar({ isAdmin, user, handleLogout }) {
   return (
     <Navbar bg="light" expand="lg">
       <Navbar.Brand as={Link} to="/">Dosivac</Navbar.Brand>
@@ -17,15 +18,24 @@ function NavBar({ isAdmin, handleLogout }) {
             </NavDropdown>
           )}
         </Nav>
-        {isAdmin && (
-          <Button variant="outline-danger" onClick={handleLogout}>
-            Logout
-          </Button>
-        )}
+        <Nav className="ml-auto">
+          {user && (
+            <span style={{ marginRight: '10px' }}>
+              {user.name} ({user.role})
+            </span>
+          )}
+          <Nav.Link as={Link} to="/login">
+            <FaCog style={{ fontSize: '1.5em' }} />
+          </Nav.Link>
+          {isAdmin && (
+            <Button variant="outline-danger" onClick={handleLogout}>
+              Logout
+            </Button>
+          )}
+        </Nav>
       </Navbar.Collapse>
     </Navbar>
   );
 }
 
 export default NavBar;
-
