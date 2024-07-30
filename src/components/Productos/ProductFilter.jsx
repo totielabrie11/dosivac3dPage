@@ -9,9 +9,9 @@ const ProductFilter = ({ onFilter }) => {
     marcaBomba: '',
     materiales: '',
     presionMin: 0,
-    presionMax: 1241,
+    presionMax: 900,
     caudalMin: 0,
-    caudalMax: 9500,
+    caudalMax: 1200,
   });
 
   const [tipoProductoOptions, setTipoProductoOptions] = useState([]);
@@ -107,68 +107,138 @@ const ProductFilter = ({ onFilter }) => {
           {/* Agregar opciones según la base de datos */}
         </select>
       </div>
-      <div className="filter-section">
-        <label>Presión (m) entre</label>
-        <div className="range-inputs">
-          <input
-            type="range"
-            name="presionMin"
-            min="0"
-            max="1241"
-            value={filters.presionMin}
-            onChange={(e) => handleRangeChange(e, 'presionMin')}
-          />
-          <input
-            type="number"
-            value={filters.presionMin}
-            onChange={(e) => handleRangeChange(e, 'presionMin')}
-          />
-          <input
-            type="number"
-            value={filters.presionMax}
-            onChange={(e) => handleRangeChange(e, 'presionMax')}
-          />
-          <input
-            type="range"
-            name="presionMax"
-            min="0"
-            max="1241"
-            value={filters.presionMax}
-            onChange={(e) => handleRangeChange(e, 'presionMax')}
-          />
-        </div>
-      </div>
-      <div className="filter-section">
-        <label>Caudal (m3/h) entre</label>
-        <div className="range-inputs">
-          <input
-            type="range"
-            name="caudalMin"
-            min="0"
-            max="9500"
-            value={filters.caudalMin}
-            onChange={(e) => handleRangeChange(e, 'caudalMin')}
-          />
-          <input
-            type="number"
-            value={filters.caudalMin}
-            onChange={(e) => handleRangeChange(e, 'caudalMin')}
-          />
-          <input
-            type="number"
-            value={filters.caudalMax}
-            onChange={(e) => handleRangeChange(e, 'caudalMax')}
-          />
-          <input
-            type="range"
-            name="caudalMax"
-            min="0"
-            max="9500"
-            value={filters.caudalMax}
-            onChange={(e) => handleRangeChange(e, 'caudalMax')}
-          />
-        </div>
-      </div>
+      {filters.tipoBomba === 'soplador' && (
+        <>
+          <div className="filter-section">
+            <label>Presión mbar, sistema</label>
+            <div className="range-inputs">
+              <input
+                type="range"
+                name="presionMin"
+                min="0"
+                max="1241"
+                value={filters.presionMin}
+                onChange={(e) => handleRangeChange(e, 'presionMin')}
+              />
+              <input
+                type="number"
+                value={filters.presionMin}
+                onChange={(e) => handleRangeChange(e, 'presionMin')}
+              />
+              <input
+                type="number"
+                value={filters.presionMax}
+                onChange={(e) => handleRangeChange(e, 'presionMax')}
+              />
+              <input
+                type="range"
+                name="presionMax"
+                min="0"
+                max="1241"
+                value={filters.presionMax}
+                onChange={(e) => handleRangeChange(e, 'presionMax')}
+              />
+            </div>
+          </div>
+          <div className="filter-section">
+            <label>Caudal (m³/h) entre</label>
+            <div className="range-inputs">
+              <input
+                type="range"
+                name="caudalMin"
+                min="0"
+                max="9500"
+                value={filters.caudalMin}
+                onChange={(e) => handleRangeChange(e, 'caudalMin')}
+              />
+              <input
+                type="number"
+                value={filters.caudalMin}
+                onChange={(e) => handleRangeChange(e, 'caudalMin')}
+              />
+              <input
+                type="number"
+                value={filters.caudalMax}
+                onChange={(e) => handleRangeChange(e, 'caudalMax')}
+              />
+              <input
+                type="range"
+                name="caudalMax"
+                min="0"
+                max="9500"
+                value={filters.caudalMax}
+                onChange={(e) => handleRangeChange(e, 'caudalMax')}
+              />
+            </div>
+          </div>
+        </>
+      )}
+      {filters.tipoBomba === 'Bomba Dosificadora' && (
+        <>
+          <div className="filter-section">
+            <label>Contrapresión en sistema (kg/cm²)</label>
+            <div className="range-inputs">
+              <input
+                type="range"
+                name="presionMin"
+                min="0"
+                max="1241"
+                value={filters.presionMin}
+                onChange={(e) => handleRangeChange(e, 'presionMin')}
+              />
+              <input
+                type="number"
+                value={filters.presionMin}
+                onChange={(e) => handleRangeChange(e, 'presionMin')}
+              />
+              <input
+                type="number"
+                value={filters.presionMax}
+                onChange={(e) => handleRangeChange(e, 'presionMax')}
+              />
+              <input
+                type="range"
+                name="presionMax"
+                min="0"
+                max="1241"
+                value={filters.presionMax}
+                onChange={(e) => handleRangeChange(e, 'presionMax')}
+              />
+            </div>
+          </div>
+          <div className="filter-section">
+            <label>Caudal (lts/h) entre</label>
+            <div className="range-inputs">
+              <input
+                type="range"
+                name="caudalMin"
+                min="0"
+                max="9500"
+                value={filters.caudalMin}
+                onChange={(e) => handleRangeChange(e, 'caudalMin')}
+              />
+              <input
+                type="number"
+                value={filters.caudalMin}
+                onChange={(e) => handleRangeChange(e, 'caudalMin')}
+              />
+              <input
+                type="number"
+                value={filters.caudalMax}
+                onChange={(e) => handleRangeChange(e, 'caudalMax')}
+              />
+              <input
+                type="range"
+                name="caudalMax"
+                min="0"
+                max="9500"
+                value={filters.caudalMax}
+                onChange={(e) => handleRangeChange(e, 'caudalMax')}
+              />
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };
