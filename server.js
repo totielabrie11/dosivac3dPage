@@ -2,6 +2,7 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const multer = require('multer');
+const getGLTFFiles = require('./scripts/getModels');
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -24,16 +25,16 @@ if (!fs.existsSync(setterProductPath)) {
   fs.writeFileSync(setterProductPath, JSON.stringify([]));
 }
 
-// Crear el archivo 'us.json' si no existe
-const usersPath = path.join(dataDir, 'us.json');
-if (!fs.existsSync(usersPath)) {
-  fs.writeFileSync(usersPath, JSON.stringify([]));
-}
-
 // Crear el archivo 'productOrder.json' si no existe
 const productOrderPath = path.join(dataDir, 'productOrder.json');
 if (!fs.existsSync(productOrderPath)) {
   fs.writeFileSync(productOrderPath, JSON.stringify([]));
+}
+
+// Crear el archivo 'us.json' si no existe
+const usersPath = path.join(dataDir, 'us.json');
+if (!fs.existsSync(usersPath)) {
+  fs.writeFileSync(usersPath, JSON.stringify([]));
 }
 
 // Middleware para servir archivos estáticos
@@ -82,8 +83,8 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
   const modelPath = `/models/${req.file.originalname}`;
 
   const descriptions = JSON.parse(fs.readFileSync(productosDescriptionPath, 'utf8'));
-
   const existingProduct = descriptions.find(product => product.name === modelName);
+
   if (existingProduct) {
     existingProduct.path = modelPath;
   } else {
@@ -91,26 +92,40 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
   }
 
   fs.writeFileSync(productosDescriptionPath, JSON.stringify(descriptions, null, 2));
+
+  // Agregar el nuevo producto al final del orden si no existe
+  const order = JSON.parse(fs.readFileSync(productOrderPath, 'utf8'));
+  if (!order.includes(modelName)) {
+    order.push(modelName);
+  }
+  fs.writeFileSync(productOrderPath, JSON.stringify(order, null, 2));
+
   res.status(200).json({ message: 'Producto subido exitosamente', file: req.file });
 });
 
 // Función para registrar productos automáticamente
 function registerProducts(models) {
   const descriptions = JSON.parse(fs.readFileSync(productosDescriptionPath, 'utf8'));
+  const order = JSON.parse(fs.readFileSync(productOrderPath, 'utf8'));
+
   models.forEach(model => {
     const existingProduct = descriptions.find(product => product.name === model.name);
     if (existingProduct) {
       existingProduct.path = model.path;
     } else {
       descriptions.push({ name: model.name, description: '', path: model.path, caracteristicas: [] });
+      if (!order.includes(model.name)) {
+        order.push(model.name);
+      }
     }
   });
+
   fs.writeFileSync(productosDescriptionPath, JSON.stringify(descriptions, null, 2));
+  fs.writeFileSync(productOrderPath, JSON.stringify(order, null, 2));
 }
 
 // API endpoint para obtener modelos y registrar productos automáticamente
 app.get('/api/models', (req, res) => {
-  const getGLTFFiles = require('./scripts/getModels');
   const result = getGLTFFiles();
   registerProducts(result.models);
   res.json(result);
@@ -128,7 +143,7 @@ app.get('/api/product-order', (req, res) => {
   res.json(order);
 });
 
-// API endpoint para guardar el orden de los productos
+// API endpoint para actualizar el orden de los productos
 app.post('/api/product-order', (req, res) => {
   const { order } = req.body;
   fs.writeFileSync(productOrderPath, JSON.stringify(order, null, 2));

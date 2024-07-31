@@ -140,5 +140,17 @@
     "description": "",
     "path": "/models/DAN.png",
     "caracteristicas": []
+  },
+  {
+    "name": "ddiblanco.JPG",
+    "description": "",
+    "path": "/models/ddiblanco.JPG",
+    "caracteristicas": []
+  },
+  {
+    "name": "DDI.JPG",
+    "description": "",
+    "path": "/models/DDI.JPG",
+    "caracteristicas": []
   }
 ]

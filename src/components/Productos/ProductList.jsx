@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import './ProductList.css'
 
 const ProductList = ({ setModelPath, setProductDescription, setSelectedProduct, setCharacteristics }) => {
   const [data, setData] = useState(null);
