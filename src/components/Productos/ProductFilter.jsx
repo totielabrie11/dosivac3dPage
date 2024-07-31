@@ -9,7 +9,7 @@ const ProductFilter = ({ onFilter }) => {
     tipoBombaDosificadora: '',
     subTipoBombaDosificadora: '',
     marcaBomba: '',
-    materiales: '',
+    tipoAccionamiento: '',
     presionMin: 0,
     presionMax: 900,
     caudalMin: 0,
@@ -172,13 +172,18 @@ const ProductFilter = ({ onFilter }) => {
           )}
         </>
       )}
-      <div className="filter-section">
-        <label>Materiales</label>
-        <select name="materiales" onChange={handleChange}>
-          <option value="">Seleccionar</option>
-          {/* Agregar opciones según la base de datos */}
-        </select>
-      </div>
+      {filters.tipoBomba === 'Bomba Dosificadora' && (
+        <div className="filter-section">
+          <label>Tipo de Accionamiento</label>
+          <select name="tipoAccionamiento" onChange={handleChange}>
+            <option value="">Seleccionar</option>
+            <option value="Eléctrico">Eléctrico</option>
+            <option value="Solar">Solar</option>
+            <option value="Palanca">Palanca</option>
+            <option value="Neumático">Neumático</option>
+          </select>
+        </div>
+      )}
       {filters.tipoBomba === 'soplador' && (
         <>
           <div className="filter-section">

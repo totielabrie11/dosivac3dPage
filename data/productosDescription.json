@@ -67,7 +67,9 @@
     "description": "Bomba Dosificadora DEN",
     "path": "/models/DEN.png",
     "caracteristicas": [
-      "Tipo de Producto: Bomba Dosificadora"
+      "Tipo de Producto: Bomba Dosificadora",
+      "Aplicación: sistemas de alta presión",
+      "Tipo de industria: Petrolera"
     ]
   },
   {
@@ -126,5 +128,17 @@
       "Aplicación: sistemas de alta presión",
       "Tipo de industria: Petrolera"
     ]
+  },
+  {
+    "name": "DEON",
+    "description": "",
+    "path": "/models/DEON.png",
+    "caracteristicas": []
+  },
+  {
+    "name": "DAN",
+    "description": "",
+    "path": "/models/DAN.png",
+    "caracteristicas": []
   }
 ]
