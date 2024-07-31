@@ -21,7 +21,7 @@ const Login = ({ setIsAdmin, setUser }) => {
       const data = await response.json();
       if (data.success) {
         setIsAdmin(data.role === 'administrador');
-        setUser({ name: data.name, role: data.role });
+        setUser({ name: data.username, role: data.role });  // Asegúrate de que el backend devuelva el nombre de usuario correctamente
       } else {
         setError('Invalid credentials');
       }

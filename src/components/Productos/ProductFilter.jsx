@@ -6,6 +6,8 @@ const ProductFilter = ({ onFilter }) => {
     tipoBomba: '',
     tipoAplicacion: '',
     tipoIndustria: '',
+    tipoBombaDosificadora: '',
+    subTipoBombaDosificadora: '',
     marcaBomba: '',
     materiales: '',
     presionMin: 0,
@@ -17,6 +19,8 @@ const ProductFilter = ({ onFilter }) => {
   const [tipoProductoOptions, setTipoProductoOptions] = useState([]);
   const [aplicacionOptions, setAplicacionOptions] = useState([]);
   const [allAplicacionOptions, setAllAplicacionOptions] = useState([]);
+  const [tipoIndustriaOptions, setTipoIndustriaOptions] = useState([]);
+  const [subTipoBombaDosificadoraOptions, setSubTipoBombaDosificadoraOptions] = useState([]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -33,6 +37,7 @@ const ProductFilter = ({ onFilter }) => {
       const data = await response.json();
       const tiposDeProducto = new Set();
       const tiposDeAplicacion = new Set();
+      const tiposDeIndustria = new Set();
       data.forEach(product => {
         product.caracteristicas.forEach(caracteristica => {
           const tipoMatch = caracteristica.match(/Tipo de Producto: (.*)/i);
@@ -45,11 +50,17 @@ const ProductFilter = ({ onFilter }) => {
             const aplicacion = aplicacionMatch[1].trim();
             tiposDeAplicacion.add(aplicacion);
           }
+          const industriaMatch = caracteristica.match(/Industria: (.*)/i);
+          if (industriaMatch) {
+            const industria = industriaMatch[1].trim();
+            tiposDeIndustria.add(industria);
+          }
         });
       });
       setTipoProductoOptions([...tiposDeProducto]);
       setAllAplicacionOptions([...tiposDeAplicacion]);
       setAplicacionOptions([...tiposDeAplicacion]);
+      setTipoIndustriaOptions([...tiposDeIndustria]);
     } catch (error) {
       console.error('Failed to fetch product descriptions:', error);
     }
@@ -74,6 +85,22 @@ const ProductFilter = ({ onFilter }) => {
 
     updateAplicacionOptions();
   }, [filters.tipoBomba, allAplicacionOptions]);
+
+  useEffect(() => {
+    const updateSubTipoBombaDosificadoraOptions = () => {
+      if (filters.tipoBombaDosificadora === 'Electromagnética') {
+        setSubTipoBombaDosificadoraOptions(['EMD', 'EMD-PLUS', 'MI-EMD', 'EMD MAX']);
+      } else if (filters.tipoBombaDosificadora === 'Diafragma') {
+        setSubTipoBombaDosificadoraOptions(['DDI', 'DDI DUPLEX', 'DAN', 'DAN DUPLEX']);
+      } else if (filters.tipoBombaDosificadora === 'Pistón') {
+        setSubTipoBombaDosificadoraOptions(['DECI', 'DE', 'DEAP', 'DES', 'DENG', 'DEON']);
+      } else {
+        setSubTipoBombaDosificadoraOptions([]);
+      }
+    };
+
+    updateSubTipoBombaDosificadoraOptions();
+  }, [filters.tipoBombaDosificadora]);
 
   useEffect(() => {
     onFilter(filters);
@@ -108,16 +135,39 @@ const ProductFilter = ({ onFilter }) => {
         <label>Tipo de Industria</label>
         <select name="tipoIndustria" onChange={handleChange}>
           <option value="">Seleccionar</option>
-          {/* Agregar opciones según la base de datos */}
+          {tipoIndustriaOptions.map((option, index) => (
+            <option key={index} value={option}>
+              {option}
+            </option>
+          ))}
         </select>
       </div>
-      <div className="filter-section">
-        <label>Marca de Bomba</label>
-        <select name="marcaBomba" onChange={handleChange}>
-          <option value="">Seleccionar</option>
-          {/* Agregar opciones según la base de datos */}
-        </select>
-      </div>
+      {filters.tipoBomba === 'Bomba Dosificadora' && (
+        <>
+          <div className="filter-section">
+            <label>Tipo de Bomba Dosificadora</label>
+            <select name="tipoBombaDosificadora" onChange={handleChange}>
+              <option value="">Seleccionar</option>
+              <option value="Electromagnética">Electromagnética</option>
+              <option value="Diafragma">Diafragma</option>
+              <option value="Pistón">Pistón</option>
+            </select>
+          </div>
+          {filters.tipoBombaDosificadora && (
+            <div className="filter-section">
+              <label>Sub Tipo de Bomba Dosificadora</label>
+              <select name="subTipoBombaDosificadora" onChange={handleChange}>
+                <option value="">Seleccionar</option>
+                {subTipoBombaDosificadoraOptions.map((option, index) => (
+                  <option key={index} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+        </>
+      )}
       <div className="filter-section">
         <label>Materiales</label>
         <select name="materiales" onChange={handleChange}>

@@ -41,7 +41,7 @@
     "path": "/models/bomba periferica.glb",
     "caracteristicas": [
       "Tipo de producto: bomba periferica",
-      "Tipo de aplicación:  elevación de agua"
+      "Tipo de aplicación: elevacion de agua"
     ]
   },
   {
@@ -76,7 +76,8 @@
     "path": "/models/DECI.png",
     "caracteristicas": [
       "Tipo de Producto: Bomba Dosificadora",
-      "Aplicación: sistemas de alta presión"
+      "Aplicación: sistemas de alta presión",
+      "Tipo de industria: Petrolera"
     ]
   },
   {
@@ -104,6 +105,16 @@
     "caracteristicas": [
       "Tipo de Producto: Bomba de vacío",
       "Aplicación: Vacío industrial"
+    ]
+  },
+  {
+    "name": "DEPP",
+    "description": "Bomba dosificadora a planca DEPP",
+    "path": "/models/DEPP.png",
+    "caracteristicas": [
+      "Tipo de Producto: Bomba Dosificadora",
+      "Aplicación: sistemas de alta presión",
+      "Tipo de industria: Petrolera"
     ]
   }
 ]

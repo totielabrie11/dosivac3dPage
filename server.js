@@ -53,12 +53,11 @@ app.post('/api/login', (req, res) => {
 
   const user = users.find(user => user.username === username && user.password === password);
   if (user) {
-    res.json({ success: true, name: user.username, role: user.role });
+    res.json({ success: true, username: user.username, role: user.role });
   } else {
     res.status(401).json({ success: false, message: 'Invalid credentials' });
   }
 });
-
 
 // Ruta para cargar un nuevo archivo GLB
 app.post('/api/upload', upload.single('file'), (req, res) => {
@@ -117,6 +116,40 @@ app.get('/api/product-descriptions', (req, res) => {
   res.json(descriptions);
 });
 
+// API endpoint para filtrar productos
+app.post('/api/filter-products', (req, res) => {
+  const filters = req.body;
+  const descriptions = JSON.parse(fs.readFileSync(productosDescriptionPath, 'utf8'));
+
+  let filteredProducts = descriptions;
+
+  if (filters.tipoBomba) {
+    filteredProducts = filteredProducts.filter(p => p.caracteristicas.some(c => c.toLowerCase().includes(`tipo de producto: ${filters.tipoBomba.toLowerCase()}`)));
+  }
+  if (filters.tipoAplicacion) {
+    filteredProducts = filteredProducts.filter(p => p.caracteristicas.some(c => c.toLowerCase().includes(`aplicación: ${filters.tipoAplicacion.toLowerCase()}`)));
+  }
+  if (filters.tipoIndustria) {
+    filteredProducts = filteredProducts.filter(p => p.caracteristicas.some(c => c.toLowerCase().includes(`industria: ${filters.tipoIndustria.toLowerCase()}`)));
+  }
+  if (filters.marcaBomba) {
+    filteredProducts = filteredProducts.filter(p => p.caracteristicas.some(c => c.toLowerCase().includes(`marca: ${filters.marcaBomba.toLowerCase()}`)));
+  }
+  if (filters.materiales) {
+    filteredProducts = filteredProducts.filter(p => p.caracteristicas.some(c => c.toLowerCase().includes(`materiales: ${filters.materiales.toLowerCase()}`)));
+  }
+  filteredProducts = filteredProducts.filter(p => {
+    const presion = parseInt(p.caracteristicas.find(c => c.toLowerCase().includes('presión'))?.match(/\d+/) || 0, 10);
+    return presion >= filters.presionMin && presion <= filters.presionMax;
+  });
+  filteredProducts = filteredProducts.filter(p => {
+    const caudal = parseInt(p.caracteristicas.find(c => c.toLowerCase().includes('caudal'))?.match(/\d+/) || 0, 10);
+    return caudal >= filters.caudalMin && caudal <= filters.caudalMax;
+  });
+
+  res.json(filteredProducts);
+});
+
 // API endpoint para actualizar la descripción de un producto
 app.post('/api/product-descriptions', (req, res) => {
   const { name, description } = req.body;
@@ -133,7 +166,6 @@ app.post('/api/product-descriptions', (req, res) => {
   res.json({ success: true });
 });
 
-// API endpoint para actualizar las características de un producto
 // API endpoint para actualizar las características de un producto
 app.post('/api/product-characteristics', (req, res) => {
   const { name, characteristics } = req.body;

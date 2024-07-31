@@ -217,15 +217,15 @@
   },
   {
     "name": "DECI",
-    "lightIntensity": 2.3,
+    "lightIntensity": 1,
     "spotLightIntensity": 1,
     "lightPosition": [
-      -6.7,
-      -5.4,
-      -6.4
+      10,
+      10,
+      10
     ],
-    "isAnimating": false,
-    "rotationSpeed": 0.041
+    "isAnimating": true,
+    "rotationSpeed": 0.002
   },
   {
     "name": "DEAP",
@@ -262,5 +262,17 @@
     ],
     "isAnimating": false,
     "rotationSpeed": 0.01
+  },
+  {
+    "name": "DEPP",
+    "lightIntensity": 1,
+    "spotLightIntensity": 1,
+    "lightPosition": [
+      10,
+      10,
+      10
+    ],
+    "isAnimating": true,
+    "rotationSpeed": 0.002
   }
 ]

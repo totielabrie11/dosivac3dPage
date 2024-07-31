@@ -24,10 +24,11 @@ function NavBar({ isAdmin, user, handleLogout }) {
               {user.name} ({user.role})
             </span>
           )}
-          <Nav.Link as={Link} to="/login">
-            <FaCog style={{ fontSize: '1.5em' }} />
-          </Nav.Link>
-          {isAdmin && (
+          {!user ? (
+            <Nav.Link as={Link} to="/login">
+              <FaCog style={{ fontSize: '1.5em' }} />
+            </Nav.Link>
+          ) : (
             <Button variant="outline-danger" onClick={handleLogout}>
               Logout
             </Button>
