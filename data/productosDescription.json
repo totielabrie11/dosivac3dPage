@@ -6,9 +6,10 @@
     "caracteristicas": [
       "Tipo de Producto: Bomba de vacío",
       "Aplicación: Refrigeración",
+      "Etapas: 2 etapas",
       "Motor: Tipo brusheless",
-      "Apto: gases de nueva generación 600 inflamables",
-      "Tipo de gases: R22 - R132 otros"
+      "Tipo de gases: R22 - R132 otros",
+      "Apto: gases de nueva generación 600 inflamables"
     ]
   },
   {
@@ -97,7 +98,8 @@
     "path": "/models/DVR2.png",
     "caracteristicas": [
       "Tipo de Producto: Bomba de vacío",
-      "Aplicación: Refrigeración"
+      "Aplicación: Refrigeración",
+      "Estapas: 2 etapas"
     ]
   },
   {
@@ -149,8 +151,24 @@
   },
   {
     "name": "DDI.JPG",
-    "description": "",
+    "description": "Bomba dosificadora DDI",
     "path": "/models/DDI.JPG",
-    "caracteristicas": []
+    "caracteristicas": [
+      "Tipo de Producto: Bomba Dosificadora",
+      "Aplicación: Tratamiento de aguas",
+      "Aplicación: industria química en general",
+      "Tipo de industria: Petrolera",
+      "Rango de caudal:  2 lts/h   -  600 lts/h"
+    ]
+  },
+  {
+    "name": "Supervac",
+    "description": "Bomba de vacío Supervac",
+    "path": "/models/Supervac.png",
+    "caracteristicas": [
+      "Tipo de Producto: Bomba de vacío",
+      "Aplicación: Refrigeración",
+      "Etapas: 1 etapa"
+    ]
   }
 ]

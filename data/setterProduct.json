@@ -169,15 +169,15 @@
   },
   {
     "name": "bomba periferica",
-    "lightIntensity": 1,
+    "lightIntensity": 3.1,
     "spotLightIntensity": 1,
     "lightPosition": [
-      10,
+      -1.7,
       10,
       10
     ],
-    "isAnimating": false,
-    "rotationSpeed": 0.01
+    "isAnimating": true,
+    "rotationSpeed": 0.001
   },
   {
     "name": "EMD-PLUS",
@@ -188,8 +188,8 @@
       10,
       10
     ],
-    "isAnimating": true,
-    "rotationSpeed": 0.002
+    "isAnimating": false,
+    "rotationSpeed": 0.01
   },
   {
     "name": "EMD",
@@ -289,6 +289,18 @@
   },
   {
     "name": "DDI.JPG",
+    "lightIntensity": 1,
+    "spotLightIntensity": 1,
+    "lightPosition": [
+      10,
+      10,
+      10
+    ],
+    "isAnimating": true,
+    "rotationSpeed": 0.002
+  },
+  {
+    "name": "Supervac",
     "lightIntensity": 1,
     "spotLightIntensity": 1,
     "lightPosition": [
