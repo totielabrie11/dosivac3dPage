@@ -125,7 +125,7 @@ const ProductFilter = ({ onFilter }) => {
         </select>
       </div>
       <div className="filter-section">
-        <label>Tipo de Aplicación</label>
+        <label>Para Sistemas</label>
         <select name="tipoAplicacion" onChange={handleChange}>
           <option value="">Seleccionar</option>
           {aplicacionOptions.map((option, index) => (
@@ -136,7 +136,7 @@ const ProductFilter = ({ onFilter }) => {
         </select>
       </div>
       <div className="filter-section">
-        <label>Tipo de Industria</label>
+        <label>Campo de Aplicación</label>
         <select name="tipoIndustria" onChange={handleChange}>
           <option value="">Seleccionar</option>
           {tipoIndustriaOptions.map((option, index) => (
