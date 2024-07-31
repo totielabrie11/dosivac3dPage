@@ -149,18 +149,21 @@ const ProductList = ({ setModelPath, setProductDescription, setSelectedProduct, 
     const orderedProducts = products.slice().sort((a, b) => order.indexOf(a.name) - order.indexOf(b.name));
 
     return (
-      <ul>
+      <ul className="product-list">
         {orderedProducts.map((model, index) => (
-          <li key={index}>
-            {index + 1}) {model.name} ({model.type})
-            <button onClick={() => { setModelPath(model.path); fetchProductDescription(model.name); }}>
-              Editar
-            </button>
-            <Link to={`/productos/${model.name}`}>
-              <button>Ver Producto</button>
-            </Link>
-            <button onClick={() => moveProductUp(index)}>⬆️</button>
-            <button onClick={() => moveProductDown(index)}>⬇️</button>
+          <li key={index} className="product-list-item">
+            <span className="product-name">{index + 1}) {model.name} ({model.type})</span>
+            <div className="product-actions">
+              <button className="btn-edit" onClick={() => { setModelPath(model.path); fetchProductDescription(model.name); }}>
+                Editar
+              </button>
+              <Link to={`/productos/${model.name}`}>
+                <button className="btn-view">Ver Producto</button>
+              </Link>
+              <button className="btn-move" onClick={() => moveProductUp(index)}>⬆️</button>
+              <button className="btn-move" onClick={() => moveProductDown(index)}>⬇️</button>
+              <button className="btn-edit-name" onClick={() => alert('Editar nombre del producto aún no implementado')}>✏️</button>
+            </div>
           </li>
         ))}
       </ul>
