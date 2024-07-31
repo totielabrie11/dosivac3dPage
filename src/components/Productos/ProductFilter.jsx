@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './ProductFilter.css';  // Asegúrate de que esta línea esté presente
+import './ProductFilter.css';
 
 const ProductFilter = ({ onFilter }) => {
   const [filters, setFilters] = useState({
@@ -39,23 +39,25 @@ const ProductFilter = ({ onFilter }) => {
       const tiposDeAplicacion = new Set();
       const tiposDeIndustria = new Set();
       data.forEach(product => {
-        product.caracteristicas.forEach(caracteristica => {
-          const tipoMatch = caracteristica.match(/Tipo de Producto: (.*)/i);
-          if (tipoMatch) {
-            const tipo = tipoMatch[1].trim();
-            tiposDeProducto.add(tipo);
-          }
-          const aplicacionMatch = caracteristica.match(/Aplicación: (.*)/i);
-          if (aplicacionMatch) {
-            const aplicacion = aplicacionMatch[1].trim();
-            tiposDeAplicacion.add(aplicacion);
-          }
-          const industriaMatch = caracteristica.match(/Industria: (.*)/i);
-          if (industriaMatch) {
-            const industria = industriaMatch[1].trim();
-            tiposDeIndustria.add(industria);
-          }
-        });
+        if (Array.isArray(product.caracteristicas)) {
+          product.caracteristicas.forEach(caracteristica => {
+            const tipoMatch = caracteristica.match(/Tipo de Producto: (.*)/i);
+            if (tipoMatch) {
+              const tipo = tipoMatch[1].trim();
+              tiposDeProducto.add(tipo);
+            }
+            const aplicacionMatch = caracteristica.match(/Aplicación: (.*)/i);
+            if (aplicacionMatch) {
+              const aplicacion = aplicacionMatch[1].trim();
+              tiposDeAplicacion.add(aplicacion);
+            }
+            const industriaMatch = caracteristica.match(/Industria: (.*)/i);
+            if (industriaMatch) {
+              const industria = industriaMatch[1].trim();
+              tiposDeIndustria.add(industria);
+            }
+          });
+        }
       });
       setTipoProductoOptions([...tiposDeProducto]);
       setAllAplicacionOptions([...tiposDeAplicacion]);
@@ -83,7 +85,9 @@ const ProductFilter = ({ onFilter }) => {
       }
     };
 
-    updateAplicacionOptions();
+    if (allAplicacionOptions && Array.isArray(allAplicacionOptions)) {
+      updateAplicacionOptions();
+    }
   }, [filters.tipoBomba, allAplicacionOptions]);
 
   useEffect(() => {

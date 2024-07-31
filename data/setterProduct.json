@@ -274,5 +274,17 @@
     ],
     "isAnimating": true,
     "rotationSpeed": 0.002
+  },
+  {
+    "name": "DENG",
+    "lightIntensity": 1,
+    "spotLightIntensity": 1,
+    "lightPosition": [
+      10,
+      10,
+      10
+    ],
+    "isAnimating": false,
+    "rotationSpeed": 0.01
   }
 ]

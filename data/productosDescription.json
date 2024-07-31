@@ -116,5 +116,15 @@
       "Aplicación: sistemas de alta presión",
       "Tipo de industria: Petrolera"
     ]
+  },
+  {
+    "name": "DENG",
+    "description": "",
+    "path": "/models/DENG.png",
+    "caracteristicas": [
+      "Tipo de Producto: Bomba Dosificadora",
+      "Aplicación: sistemas de alta presión",
+      "Tipo de industria: Petrolera"
+    ]
   }
 ]

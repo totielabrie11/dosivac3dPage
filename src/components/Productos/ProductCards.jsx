@@ -14,16 +14,16 @@ const ProductCards = ({ products }) => {
 
   return (
     <div className="product-cards-container">
-      {products.map((product, index) => (
+      {Array.isArray(products) && products.map((product, index) => (
         <div className="product-card" key={index}>
           <img 
-            src={product.image || 'https://via.placeholder.com/150'} 
-            alt={product.name} 
+            src={product.path || 'https://via.placeholder.com/150'} 
+            alt={product.name || 'No Image Available'} 
             className="product-image" 
           />
-          <h3>{product.name}</h3>
-          <p>{product.description}</p>
-          {product.caracteristicas && (
+          <h3>{product.name || 'Unnamed Product'}</h3>
+          <p>{product.description || 'No description available.'}</p>
+          {Array.isArray(product.caracteristicas) && product.caracteristicas.length > 0 && (
             <ul>
               {product.caracteristicas.map((feature, idx) => (
                 <li key={idx}>{feature}</li>

@@ -81,7 +81,7 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
   if (existingProduct) {
     existingProduct.path = modelPath;
   } else {
-    descriptions.push({ name: modelName, description: '', path: modelPath });
+    descriptions.push({ name: modelName, description: '', path: modelPath, caracteristicas: [] });
   }
 
   fs.writeFileSync(productosDescriptionPath, JSON.stringify(descriptions, null, 2));
@@ -96,7 +96,7 @@ function registerProducts(models) {
     if (existingProduct) {
       existingProduct.path = model.path;
     } else {
-      descriptions.push({ name: model.name, description: '', path: model.path });
+      descriptions.push({ name: model.name, description: '', path: model.path, caracteristicas: [] });
     }
   });
   fs.writeFileSync(productosDescriptionPath, JSON.stringify(descriptions, null, 2));
@@ -159,7 +159,7 @@ app.post('/api/product-descriptions', (req, res) => {
   if (existingProduct) {
     existingProduct.description = description;
   } else {
-    descriptions.push({ name, description });
+    descriptions.push({ name, description, caracteristicas: [] });
   }
 
   fs.writeFileSync(productosDescriptionPath, JSON.stringify(descriptions, null, 2));
