@@ -7,6 +7,8 @@ const ProductList = ({ setModelPath, setProductDescription, setSelectedProduct, 
   const [showList, setShowList] = useState(true);
   const [file, setFile] = useState(null);
   const [order, setOrder] = useState([]);
+  const [editIndex, setEditIndex] = useState(null);
+  const [editName, setEditName] = useState("");
 
   // Define fetchProducts utilizando useCallback
   const fetchProducts = useCallback(async (order) => {
@@ -144,6 +146,40 @@ const ProductList = ({ setModelPath, setProductDescription, setSelectedProduct, 
     saveProductOrder(updatedOrder);
   };
 
+  const handleEditClick = (index, name) => {
+    setEditIndex(index);
+    setEditName(name);
+  };
+
+  const handleEditChange = (e) => {
+    setEditName(e.target.value);
+  };
+
+  const handleEditSave = async () => {
+    const updatedData = [...data];
+    const oldName = updatedData[editIndex].name;
+    updatedData[editIndex].name = editName;
+    setData(updatedData);
+    setEditIndex(null);
+    setEditName("");
+
+    try {
+      const response = await fetch('/api/edit-product-name', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ oldName, newName: editName }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+    } catch (error) {
+      console.error('Failed to update product name:', error);
+    }
+  };
+
   const renderProductList = (products) => {
     // Ordenar productos según el estado order
     const orderedProducts = products.slice().sort((a, b) => order.indexOf(a.name) - order.indexOf(b.name));
@@ -152,7 +188,17 @@ const ProductList = ({ setModelPath, setProductDescription, setSelectedProduct, 
       <ul className="product-list">
         {orderedProducts.map((model, index) => (
           <li key={index} className="product-list-item">
-            <span className="product-name">{index + 1}) {model.name} ({model.type})</span>
+            {editIndex === index ? (
+              <input
+                type="text"
+                value={editName}
+                onChange={handleEditChange}
+                onBlur={handleEditSave}
+                autoFocus
+              />
+            ) : (
+              <span className="product-name">{index + 1}) {model.name} ({model.type})</span>
+            )}
             <div className="product-actions">
               <button className="btn-edit" onClick={() => { setModelPath(model.path); fetchProductDescription(model.name); }}>
                 Editar
@@ -162,7 +208,7 @@ const ProductList = ({ setModelPath, setProductDescription, setSelectedProduct, 
               </Link>
               <button className="btn-move" onClick={() => moveProductUp(index)}>⬆️</button>
               <button className="btn-move" onClick={() => moveProductDown(index)}>⬇️</button>
-              <button className="btn-edit-name" onClick={() => alert('Editar nombre del producto aún no implementado')}>✏️</button>
+              <button className="btn-edit-name" onClick={() => handleEditClick(index, model.name)}>✏️</button>
             </div>
           </li>
         ))}

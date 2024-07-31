@@ -1,8 +1,8 @@
 [
   {
-    "name": "Dvr6nuevaGen",
+    "name": "DVR6",
     "description": "Bomba de vacío Dosivac DVR6 New Gen de 2 etapas",
-    "path": "/models/Dvr6nuevaGen.glb",
+    "path": "/models/DVR6.glb",
     "caracteristicas": [
       "Tipo de Producto: Bomba de vacío",
       "Aplicación: Refrigeración",
@@ -13,7 +13,7 @@
     ]
   },
   {
-    "name": "bomba",
+    "name": "soplador",
     "description": "Soplador tipo ROOTS  DS-DSV",
     "path": "/models/bomba.glb",
     "caracteristicas": [
@@ -37,9 +37,9 @@
     ]
   },
   {
-    "name": "bomba periferica",
+    "name": "DSHC",
     "description": "Bomba Periferica 1/2 Hp",
-    "path": "/models/bomba periferica.glb",
+    "path": "/models/DSHC.png",
     "caracteristicas": [
       "Tipo de producto: bomba periferica",
       "Tipo de aplicación: elevacion de agua"
@@ -158,7 +158,8 @@
       "Aplicación: Tratamiento de aguas",
       "Aplicación: industria química en general",
       "Tipo de industria: Petrolera",
-      "Rango de caudal:  2 lts/h   -  600 lts/h"
+      "Rango de caudal:  2 lts/h   -  600 lts/h",
+      "Tipo de cabeza: PP - PVDF - INOX"
     ]
   },
   {
@@ -170,5 +171,17 @@
       "Aplicación: Refrigeración",
       "Etapas: 1 etapa"
     ]
+  },
+  {
+    "name": "bomba",
+    "description": "",
+    "path": "/models/bomba.glb",
+    "caracteristicas": []
+  },
+  {
+    "name": "periferica",
+    "description": "",
+    "path": "/models/periferica.glb",
+    "caracteristicas": []
   }
 ]

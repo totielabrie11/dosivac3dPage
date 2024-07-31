@@ -201,6 +201,63 @@ app.get('/api/product/:name', (req, res) => {
   }
 });
 
+app.post('/api/edit-product-name', (req, res) => {
+  const { oldName, newName } = req.body;
+
+  // Obtener las extensiones de los archivos actuales
+  let descriptions = JSON.parse(fs.readFileSync(productosDescriptionPath, 'utf8'));
+  const existingProduct = descriptions.find(product => product.name === oldName);
+  if (!existingProduct) {
+    return res.status(404).json({ message: 'Product not found' });
+  }
+  
+  const oldFilePath = path.join(__dirname, 'public', 'models', path.basename(existingProduct.path));
+  const fileExtension = path.extname(oldFilePath);
+  const newFilePath = path.join(__dirname, 'public', 'models', `${newName}${fileExtension}`);
+
+  // Renombrar el archivo en el sistema de archivos
+  fs.rename(oldFilePath, newFilePath, (err) => {
+    if (err) {
+      return res.status(500).json({ message: 'Error renaming file', error: err });
+    }
+
+    // Actualizar productOrder.json
+    let order = JSON.parse(fs.readFileSync(productOrderPath, 'utf8'));
+    order = order.map(name => (name === oldName ? newName : name));
+    fs.writeFileSync(productOrderPath, JSON.stringify(order, null, 2));
+
+    // Actualizar productosDescription.json
+    let duplicateProduct = descriptions.find(product => product.name === newName);
+
+    if (existingProduct && !duplicateProduct) {
+      existingProduct.name = newName;
+      existingProduct.path = `/models/${newName}${fileExtension}`;
+    } else if (existingProduct && duplicateProduct) {
+      // Merge characteristics if the new name already exists
+      duplicateProduct.description = existingProduct.description || duplicateProduct.description;
+      duplicateProduct.path = existingProduct.path || duplicateProduct.path;
+      duplicateProduct.caracteristicas = [
+        ...new Set([...duplicateProduct.caracteristicas, ...existingProduct.caracteristicas])
+      ];
+      descriptions = descriptions.filter(product => product.name !== oldName);
+    }
+
+    fs.writeFileSync(productosDescriptionPath, JSON.stringify(descriptions, null, 2));
+
+    // Actualizar setterProduct.json
+    let settings = JSON.parse(fs.readFileSync(setterProductPath, 'utf8'));
+    settings = settings.map(setting => {
+      if (setting.name === oldName) {
+        return { ...setting, name: newName };
+      }
+      return setting;
+    });
+    fs.writeFileSync(setterProductPath, JSON.stringify(settings, null, 2));
+
+    res.json({ success: true });
+  });
+});
+
 app.use(express.static(path.join(__dirname, 'build')));
 
 app.get('*', (req, res) => {

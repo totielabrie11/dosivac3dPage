@@ -72,7 +72,7 @@
     "rotationSpeed": 0.01
   },
   {
-    "name": "Dvr6nuevaGen",
+    "name": "DVR6",
     "lightIntensity": 1,
     "spotLightIntensity": 1,
     "lightPosition": [
@@ -80,8 +80,8 @@
       10,
       10
     ],
-    "isAnimating": true,
-    "rotationSpeed": 0.002
+    "isAnimating": false,
+    "rotationSpeed": 0.01
   },
   {
     "name": "Fujifilm X-S10",
@@ -144,7 +144,7 @@
     "rotationSpeed": 0.006
   },
   {
-    "name": "bomba",
+    "name": "soplador",
     "lightIntensity": 1,
     "spotLightIntensity": 1,
     "lightPosition": [
@@ -168,7 +168,7 @@
     "rotationSpeed": 0.01
   },
   {
-    "name": "bomba periferica",
+    "name": "DSHC",
     "lightIntensity": 3.1,
     "spotLightIntensity": 1,
     "lightPosition": [
@@ -180,7 +180,7 @@
     "rotationSpeed": 0.001
   },
   {
-    "name": "EMD-PLUS",
+    "name": "EMD-P",
     "lightIntensity": 1,
     "spotLightIntensity": 1,
     "lightPosition": [
@@ -296,11 +296,35 @@
       10,
       10
     ],
-    "isAnimating": true,
-    "rotationSpeed": 0.002
+    "isAnimating": false,
+    "rotationSpeed": 0.01
   },
   {
     "name": "Supervac",
+    "lightIntensity": 1,
+    "spotLightIntensity": 1,
+    "lightPosition": [
+      10,
+      10,
+      10
+    ],
+    "isAnimating": false,
+    "rotationSpeed": 0.01
+  },
+  {
+    "name": "bomba",
+    "lightIntensity": 1,
+    "spotLightIntensity": 1,
+    "lightPosition": [
+      10,
+      10,
+      10
+    ],
+    "isAnimating": false,
+    "rotationSpeed": 0.01
+  },
+  {
+    "name": "DEON",
     "lightIntensity": 1,
     "spotLightIntensity": 1,
     "lightPosition": [
