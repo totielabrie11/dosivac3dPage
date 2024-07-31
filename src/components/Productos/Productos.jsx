@@ -6,6 +6,7 @@ import './Productos.css';
 function Productos() {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [order, setOrder] = useState([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -19,8 +20,40 @@ function Productos() {
       }
     };
 
+    const fetchProductOrder = async () => {
+      try {
+        const response = await fetch('/api/product-order');
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const orderData = await response.json();
+        setOrder(orderData);
+      } catch (error) {
+        console.error('Failed to fetch product order:', error);
+      }
+    };
+
     fetchProducts();
+    fetchProductOrder();
   }, []);
+
+  useEffect(() => {
+    if (products.length > 0 && order.length > 0) {
+      const orderedProducts = orderProducts(order, products);
+      setFilteredProducts(orderedProducts);
+    }
+  }, [products, order]);
+
+  const orderProducts = (order, products) => {
+    const ordered = [];
+    order.forEach(name => {
+      const product = products.find(p => p.name === name);
+      if (product) {
+        ordered.push(product);
+      }
+    });
+    return ordered;
+  };
 
   const handleFilter = (filters) => {
     let filtered = products;
@@ -47,7 +80,10 @@ function Productos() {
       const caudal = parseInt(p.caracteristicas.find(c => c.toLowerCase().includes('caudal'))?.match(/\d+/) || 0, 10);
       return caudal >= filters.caudalMin && caudal <= filters.caudalMax;
     });
-    setFilteredProducts(filtered);
+
+    // Aplicar el orden
+    const orderedFilteredProducts = orderProducts(order, filtered);
+    setFilteredProducts(orderedFilteredProducts);
   };
 
   return (
