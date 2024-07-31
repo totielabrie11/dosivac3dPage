@@ -30,6 +30,12 @@ if (!fs.existsSync(usersPath)) {
   fs.writeFileSync(usersPath, JSON.stringify([]));
 }
 
+// Crear el archivo 'productOrder.json' si no existe
+const productOrderPath = path.join(dataDir, 'productOrder.json');
+if (!fs.existsSync(productOrderPath)) {
+  fs.writeFileSync(productOrderPath, JSON.stringify([]));
+}
+
 // Middleware para servir archivos estáticos
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
@@ -116,38 +122,17 @@ app.get('/api/product-descriptions', (req, res) => {
   res.json(descriptions);
 });
 
-// API endpoint para filtrar productos
-app.post('/api/filter-products', (req, res) => {
-  const filters = req.body;
-  const descriptions = JSON.parse(fs.readFileSync(productosDescriptionPath, 'utf8'));
+// API endpoint para obtener el orden de los productos
+app.get('/api/product-order', (req, res) => {
+  const order = JSON.parse(fs.readFileSync(productOrderPath, 'utf8'));
+  res.json(order);
+});
 
-  let filteredProducts = descriptions;
-
-  if (filters.tipoBomba) {
-    filteredProducts = filteredProducts.filter(p => p.caracteristicas.some(c => c.toLowerCase().includes(`tipo de producto: ${filters.tipoBomba.toLowerCase()}`)));
-  }
-  if (filters.tipoAplicacion) {
-    filteredProducts = filteredProducts.filter(p => p.caracteristicas.some(c => c.toLowerCase().includes(`aplicación: ${filters.tipoAplicacion.toLowerCase()}`)));
-  }
-  if (filters.tipoIndustria) {
-    filteredProducts = filteredProducts.filter(p => p.caracteristicas.some(c => c.toLowerCase().includes(`industria: ${filters.tipoIndustria.toLowerCase()}`)));
-  }
-  if (filters.marcaBomba) {
-    filteredProducts = filteredProducts.filter(p => p.caracteristicas.some(c => c.toLowerCase().includes(`marca: ${filters.marcaBomba.toLowerCase()}`)));
-  }
-  if (filters.materiales) {
-    filteredProducts = filteredProducts.filter(p => p.caracteristicas.some(c => c.toLowerCase().includes(`materiales: ${filters.materiales.toLowerCase()}`)));
-  }
-  filteredProducts = filteredProducts.filter(p => {
-    const presion = parseInt(p.caracteristicas.find(c => c.toLowerCase().includes('presión'))?.match(/\d+/) || 0, 10);
-    return presion >= filters.presionMin && presion <= filters.presionMax;
-  });
-  filteredProducts = filteredProducts.filter(p => {
-    const caudal = parseInt(p.caracteristicas.find(c => c.toLowerCase().includes('caudal'))?.match(/\d+/) || 0, 10);
-    return caudal >= filters.caudalMin && caudal <= filters.caudalMax;
-  });
-
-  res.json(filteredProducts);
+// API endpoint para guardar el orden de los productos
+app.post('/api/product-order', (req, res) => {
+  const { order } = req.body;
+  fs.writeFileSync(productOrderPath, JSON.stringify(order, null, 2));
+  res.json({ success: true });
 });
 
 // API endpoint para actualizar la descripción de un producto
