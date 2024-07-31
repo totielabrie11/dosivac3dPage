@@ -1,40 +1,39 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import './ProductList.css'
+import './ProductList.css';
 
 const ProductList = ({ setModelPath, setProductDescription, setSelectedProduct, setCharacteristics }) => {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
   const [showList, setShowList] = useState(true);
   const [file, setFile] = useState(null);
   const [order, setOrder] = useState([]);
 
-  useEffect(() => {
-    fetchProductOrder();
-    fetchProducts();
-  }, []);
-
-  const fetchProducts = async () => {
+  // Define fetchProducts utilizando useCallback
+  const fetchProducts = useCallback(async (order) => {
     try {
       const response = await fetch('/api/models');
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
       const result = await response.json();
-      setData(result);
       const combinedProducts = [
         ...result.gltfNames.map(product => ({ ...product, type: 'gltf' })),
         ...result.glbNames.map(product => ({ ...product, type: 'glb' })),
         ...result.jpgNames.map(product => ({ ...product, type: 'jpg' })),
         ...result.pngNames.map(product => ({ ...product, type: 'png' }))
       ];
-      setData(combinedProducts);
+
+      // Ordenar productos según el orden guardado en `productOrder.json`
+      const orderedProducts = combinedProducts.slice().sort((a, b) => order.indexOf(a.name) - order.indexOf(b.name));
+      setData(orderedProducts);
     } catch (error) {
       console.error('Failed to fetch products:', error);
       setData([]);
     }
-  };
+  }, []);
 
-  const fetchProductOrder = async () => {
+  // Define fetchProductOrder utilizando useCallback
+  const fetchProductOrder = useCallback(async () => {
     try {
       const response = await fetch('/api/product-order');
       if (!response.ok) {
@@ -42,10 +41,15 @@ const ProductList = ({ setModelPath, setProductDescription, setSelectedProduct, 
       }
       const order = await response.json();
       setOrder(order);
+      fetchProducts(order); // Pasamos el orden actual a fetchProducts
     } catch (error) {
       console.error('Failed to fetch product order:', error);
     }
-  };
+  }, [fetchProducts]);
+
+  useEffect(() => {
+    fetchProductOrder();
+  }, [fetchProductOrder]);
 
   const saveProductOrder = async (order) => {
     try {
@@ -108,7 +112,7 @@ const ProductList = ({ setModelPath, setProductDescription, setSelectedProduct, 
 
       if (response.ok) {
         alert('Producto subido exitosamente');
-        fetchProducts();
+        fetchProductOrder(); // Recargar la lista después de la subida
       } else {
         alert('No se ha logrado subir el producto');
       }
@@ -165,18 +169,18 @@ const ProductList = ({ setModelPath, setProductDescription, setSelectedProduct, 
 
   return (
     <div>
-      <button onClick={fetchProducts}>Reconocer Productos Instalados</button>
+      <button onClick={fetchProductOrder}>Reconocer Productos Instalados</button>
       <div>
         <input type="file" onChange={handleFileChange} />
         <button onClick={handleUpload}>Instalar Nuevo Producto</button>
       </div>
-      {data && showList && (
+      {data.length > 0 && showList && (
         <div>
           <button onClick={() => setShowList(false)}>Ocultar Lista</button>
           {renderProductList(data)}
         </div>
       )}
-      {data && !showList && (
+      {data.length > 0 && !showList && (
         <button onClick={() => setShowList(true)}>Mostrar Lista</button>
       )}
     </div>

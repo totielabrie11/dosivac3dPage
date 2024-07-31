@@ -7,41 +7,34 @@ const getGLTFFiles = require('./scripts/getModels');
 const app = express();
 const port = process.env.PORT || 5000;
 
-// Crear la carpeta 'data' si no existe
 const dataDir = path.join(__dirname, 'data');
 if (!fs.existsSync(dataDir)) {
   fs.mkdirSync(dataDir);
 }
 
-// Crear el archivo 'productosDescription.json' si no existe
 const productosDescriptionPath = path.join(dataDir, 'productosDescription.json');
 if (!fs.existsSync(productosDescriptionPath)) {
   fs.writeFileSync(productosDescriptionPath, JSON.stringify([]));
 }
 
-// Crear el archivo 'setterProduct.json' si no existe
 const setterProductPath = path.join(dataDir, 'setterProduct.json');
 if (!fs.existsSync(setterProductPath)) {
   fs.writeFileSync(setterProductPath, JSON.stringify([]));
 }
 
-// Crear el archivo 'productOrder.json' si no existe
 const productOrderPath = path.join(dataDir, 'productOrder.json');
 if (!fs.existsSync(productOrderPath)) {
   fs.writeFileSync(productOrderPath, JSON.stringify([]));
 }
 
-// Crear el archivo 'us.json' si no existe
 const usersPath = path.join(dataDir, 'us.json');
 if (!fs.existsSync(usersPath)) {
   fs.writeFileSync(usersPath, JSON.stringify([]));
 }
 
-// Middleware para servir archivos estáticos
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 
-// Configurar Multer para almacenar archivos en la carpeta 'public/models'
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, path.join(__dirname, 'public', 'models'));
@@ -53,7 +46,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-// Ruta para verificar credenciales
 app.post('/api/login', (req, res) => {
   const { username, password } = req.body;
   const users = JSON.parse(fs.readFileSync(usersPath, 'utf8'));
@@ -66,7 +58,6 @@ app.post('/api/login', (req, res) => {
   }
 });
 
-// Ruta para cargar un nuevo archivo GLB
 app.post('/api/upload', upload.single('file'), (req, res) => {
   if (!req.file) {
     return res.status(400).json({ message: 'No se ha podido subir el producto' });
@@ -93,7 +84,6 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
 
   fs.writeFileSync(productosDescriptionPath, JSON.stringify(descriptions, null, 2));
 
-  // Agregar el nuevo producto al final del orden si no existe
   const order = JSON.parse(fs.readFileSync(productOrderPath, 'utf8'));
   if (!order.includes(modelName)) {
     order.push(modelName);
@@ -103,10 +93,9 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
   res.status(200).json({ message: 'Producto subido exitosamente', file: req.file });
 });
 
-// Función para registrar productos automáticamente
 function registerProducts(models) {
   const descriptions = JSON.parse(fs.readFileSync(productosDescriptionPath, 'utf8'));
-  const order = JSON.parse(fs.readFileSync(productOrderPath, 'utf8'));
+  let order = JSON.parse(fs.readFileSync(productOrderPath, 'utf8'));
 
   models.forEach(model => {
     const existingProduct = descriptions.find(product => product.name === model.name);
@@ -124,33 +113,28 @@ function registerProducts(models) {
   fs.writeFileSync(productOrderPath, JSON.stringify(order, null, 2));
 }
 
-// API endpoint para obtener modelos y registrar productos automáticamente
 app.get('/api/models', (req, res) => {
   const result = getGLTFFiles();
   registerProducts(result.models);
   res.json(result);
 });
 
-// API endpoint para obtener las descripciones de productos
 app.get('/api/product-descriptions', (req, res) => {
   const descriptions = JSON.parse(fs.readFileSync(productosDescriptionPath, 'utf8'));
   res.json(descriptions);
 });
 
-// API endpoint para obtener el orden de los productos
 app.get('/api/product-order', (req, res) => {
   const order = JSON.parse(fs.readFileSync(productOrderPath, 'utf8'));
   res.json(order);
 });
 
-// API endpoint para actualizar el orden de los productos
 app.post('/api/product-order', (req, res) => {
   const { order } = req.body;
   fs.writeFileSync(productOrderPath, JSON.stringify(order, null, 2));
   res.json({ success: true });
 });
 
-// API endpoint para actualizar la descripción de un producto
 app.post('/api/product-descriptions', (req, res) => {
   const { name, description } = req.body;
   const descriptions = JSON.parse(fs.readFileSync(productosDescriptionPath, 'utf8'));
@@ -166,7 +150,6 @@ app.post('/api/product-descriptions', (req, res) => {
   res.json({ success: true });
 });
 
-// API endpoint para actualizar las características de un producto
 app.post('/api/product-characteristics', (req, res) => {
   const { name, characteristics } = req.body;
   const descriptions = JSON.parse(fs.readFileSync(productosDescriptionPath, 'utf8'));
@@ -182,7 +165,6 @@ app.post('/api/product-characteristics', (req, res) => {
   res.json({ success: true });
 });
 
-// API endpoint para actualizar la configuración de un producto
 app.post('/api/product-settings', (req, res) => {
   const { name, lightIntensity, spotLightIntensity, lightPosition, isAnimating, rotationSpeed } = req.body;
   const settings = JSON.parse(fs.readFileSync(setterProductPath, 'utf8'));
@@ -202,13 +184,11 @@ app.post('/api/product-settings', (req, res) => {
   res.json({ success: true });
 });
 
-// API endpoint para obtener la configuración de los productos
 app.get('/api/product-settings', (req, res) => {
   const settings = JSON.parse(fs.readFileSync(setterProductPath, 'utf8'));
   res.json(settings);
 });
 
-// API endpoint para obtener un producto por su nombre
 app.get('/api/product/:name', (req, res) => {
   const name = req.params.name;
   const descriptions = JSON.parse(fs.readFileSync(productosDescriptionPath, 'utf8'));
@@ -221,7 +201,6 @@ app.get('/api/product/:name', (req, res) => {
   }
 });
 
-// Servir los archivos estáticos de React
 app.use(express.static(path.join(__dirname, 'build')));
 
 app.get('*', (req, res) => {
