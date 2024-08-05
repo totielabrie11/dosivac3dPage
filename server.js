@@ -101,12 +101,25 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
   res.status(200).json({ message: 'Producto subido exitosamente', file: req.file });
 });
 
-
 function registerProducts(models) {
   const descriptions = JSON.parse(fs.readFileSync(productosDescriptionPath, 'utf8'));
   let order = JSON.parse(fs.readFileSync(productOrderPath, 'utf8'));
+  const uniqueProducts = new Map();
 
   models.forEach(model => {
+    if (!uniqueProducts.has(model.name)) {
+      uniqueProducts.set(model.name, model);
+    } else {
+      const existingProduct = uniqueProducts.get(model.name);
+      if (model.path.endsWith('.jpg') || model.path.endsWith('.png')) {
+        existingProduct['path-image'] = model.path;
+      }
+    }
+  });
+
+  const uniqueModels = Array.from(uniqueProducts.values());
+
+  uniqueModels.forEach(model => {
     const existingProduct = descriptions.find(product => product.name === model.name);
     if (existingProduct) {
       if (model.path.endsWith('.jpg') || model.path.endsWith('.png')) {
@@ -129,7 +142,6 @@ function registerProducts(models) {
   fs.writeFileSync(productosDescriptionPath, JSON.stringify(descriptions, null, 2));
   fs.writeFileSync(productOrderPath, JSON.stringify(order, null, 2));
 }
-
 
 app.get('/api/models', (req, res) => {
   const result = getGLTFFiles();

@@ -10,7 +10,6 @@ const ProductList = ({ setModelPath, setProductDescription, setSelectedProduct, 
   const [editIndex, setEditIndex] = useState(null);
   const [editName, setEditName] = useState("");
 
-  // Define fetchProducts utilizando useCallback
   const fetchProducts = useCallback(async (order) => {
     try {
       const response = await fetch('/api/models');
@@ -19,13 +18,9 @@ const ProductList = ({ setModelPath, setProductDescription, setSelectedProduct, 
       }
       const result = await response.json();
       const combinedProducts = [
-        ...result.gltfNames.map(product => ({ ...product, type: 'gltf' })),
-        ...result.glbNames.map(product => ({ ...product, type: 'glb' })),
-        ...result.jpgNames.map(product => ({ ...product, type: 'jpg' })),
-        ...result.pngNames.map(product => ({ ...product, type: 'png' }))
+        ...result.models
       ];
 
-      // Ordenar productos según el orden guardado en `productOrder.json`
       const orderedProducts = combinedProducts.slice().sort((a, b) => order.indexOf(a.name) - order.indexOf(b.name));
       setData(orderedProducts);
     } catch (error) {
@@ -34,7 +29,6 @@ const ProductList = ({ setModelPath, setProductDescription, setSelectedProduct, 
     }
   }, []);
 
-  // Define fetchProductOrder utilizando useCallback
   const fetchProductOrder = useCallback(async () => {
     try {
       const response = await fetch('/api/product-order');
@@ -43,7 +37,7 @@ const ProductList = ({ setModelPath, setProductDescription, setSelectedProduct, 
       }
       const order = await response.json();
       setOrder(order);
-      fetchProducts(order); // Pasamos el orden actual a fetchProducts
+      fetchProducts(order);
     } catch (error) {
       console.error('Failed to fetch product order:', error);
     }
@@ -114,7 +108,7 @@ const ProductList = ({ setModelPath, setProductDescription, setSelectedProduct, 
 
       if (response.ok) {
         alert('Producto subido exitosamente');
-        fetchProductOrder(); // Recargar la lista después de la subida
+        fetchProductOrder();
       } else {
         alert('No se ha logrado subir el producto');
       }
@@ -125,7 +119,7 @@ const ProductList = ({ setModelPath, setProductDescription, setSelectedProduct, 
   };
 
   const moveProductUp = (index) => {
-    if (index === 0) return; // No puede moverse hacia arriba si ya está en la primera posición
+    if (index === 0) return;
     const updatedData = [...data];
     [updatedData[index - 1], updatedData[index]] = [updatedData[index], updatedData[index - 1]];
     setData(updatedData);
@@ -134,7 +128,7 @@ const ProductList = ({ setModelPath, setProductDescription, setSelectedProduct, 
 
   const moveProductDown = (index) => {
     const updatedData = [...data];
-    if (index === updatedData.length - 1) return; // No puede moverse hacia abajo si ya está en la última posición
+    if (index === updatedData.length - 1) return;
     [updatedData[index + 1], updatedData[index]] = [updatedData[index], updatedData[index + 1]];
     setData(updatedData);
     updateOrder(updatedData);
@@ -181,7 +175,6 @@ const ProductList = ({ setModelPath, setProductDescription, setSelectedProduct, 
   };
 
   const renderProductList = (products) => {
-    // Ordenar productos según el estado order
     const orderedProducts = products.slice().sort((a, b) => order.indexOf(a.name) - order.indexOf(b.name));
 
     return (
@@ -197,7 +190,7 @@ const ProductList = ({ setModelPath, setProductDescription, setSelectedProduct, 
                 autoFocus
               />
             ) : (
-              <span className="product-name">{index + 1}) {model.name} ({model.type})</span>
+              <span className="product-name">{index + 1}) {model.name}</span>
             )}
             <div className="product-actions">
               <button className="btn-edit" onClick={() => { setModelPath(model.path); fetchProductDescription(model.name); }}>

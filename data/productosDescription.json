@@ -25,7 +25,7 @@
       "Presión positiva: hasta 800 mbar",
       "Presión negativa: hasta -500 mbar"
     ],
-    "path-image": "/models/DS.png"
+    "path-image": "/models/soplador.png"
   },
   {
     "name": "Mi-Emd",
@@ -190,7 +190,8 @@
   {
     "name": "periferica",
     "description": "",
-    "path": "/models/periferica.glb",
-    "caracteristicas": []
+    "path": "/models/periferica bomb.jpg",
+    "caracteristicas": [],
+    "path-image": "/models/periferica.jpg"
   }
 ]

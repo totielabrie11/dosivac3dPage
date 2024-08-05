@@ -224,8 +224,8 @@
       10,
       10
     ],
-    "isAnimating": true,
-    "rotationSpeed": 0.002
+    "isAnimating": false,
+    "rotationSpeed": 0.01
   },
   {
     "name": "DEAP",
@@ -253,15 +253,15 @@
   },
   {
     "name": "DVR2",
-    "lightIntensity": 1,
+    "lightIntensity": 3.1,
     "spotLightIntensity": 1,
     "lightPosition": [
-      10,
+      -1.7,
       10,
       10
     ],
-    "isAnimating": false,
-    "rotationSpeed": 0.01
+    "isAnimating": true,
+    "rotationSpeed": 0.001
   },
   {
     "name": "DEPP",
@@ -272,20 +272,20 @@
       10,
       10
     ],
-    "isAnimating": true,
-    "rotationSpeed": 0.002
+    "isAnimating": false,
+    "rotationSpeed": 0.01
   },
   {
     "name": "DENG",
-    "lightIntensity": 1,
+    "lightIntensity": 2.3,
     "spotLightIntensity": 1,
     "lightPosition": [
-      10,
-      10,
-      10
+      -6.7,
+      -5.4,
+      -6.4
     ],
     "isAnimating": false,
-    "rotationSpeed": 0.01
+    "rotationSpeed": 0.041
   },
   {
     "name": "DDI.JPG",
@@ -334,5 +334,53 @@
     ],
     "isAnimating": false,
     "rotationSpeed": 0.01
+  },
+  {
+    "name": "soplador",
+    "lightIntensity": 1,
+    "spotLightIntensity": 1,
+    "lightPosition": [
+      10,
+      10,
+      10
+    ],
+    "isAnimating": false,
+    "rotationSpeed": 0.01
+  },
+  {
+    "name": "EMD-PLUS",
+    "lightIntensity": 1,
+    "spotLightIntensity": 1,
+    "lightPosition": [
+      10,
+      10,
+      10
+    ],
+    "isAnimating": false,
+    "rotationSpeed": 0.01
+  },
+  {
+    "name": "DAN",
+    "lightIntensity": 1,
+    "spotLightIntensity": 1,
+    "lightPosition": [
+      10,
+      10,
+      10
+    ],
+    "isAnimating": false,
+    "rotationSpeed": 0.01
+  },
+  {
+    "name": "periferica",
+    "lightIntensity": 3.1,
+    "spotLightIntensity": 1,
+    "lightPosition": [
+      -1.7,
+      10,
+      10
+    ],
+    "isAnimating": true,
+    "rotationSpeed": 0.001
   }
 ]
