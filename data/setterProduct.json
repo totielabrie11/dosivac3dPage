@@ -152,8 +152,8 @@
       10,
       10
     ],
-    "isAnimating": true,
-    "rotationSpeed": 0.002
+    "isAnimating": false,
+    "rotationSpeed": 0.01
   },
   {
     "name": "Mi-Emd",
@@ -312,7 +312,7 @@
     "rotationSpeed": 0.01
   },
   {
-    "name": "bomba",
+    "name": "soplador",
     "lightIntensity": 1,
     "spotLightIntensity": 1,
     "lightPosition": [

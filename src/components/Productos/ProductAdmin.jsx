@@ -1,9 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import ThreeDCanvas from '../ThreeDCanvas/ThreeDCanvas';
 import ProductList from './ProductList';
-import Characteristic from './Characteristic'; // Asegúrate de que esta ruta sea correcta
+import Characteristic from './Characteristic';
 import './Productos.css';
 
 function ProductAdmin() {
@@ -20,21 +20,22 @@ function ProductAdmin() {
   const [lightPosition, setLightPosition] = useState([10, 10, 10]);
   const [isAnimating, setIsAnimating] = useState(false);
   const [rotationSpeed, setRotationSpeed] = useState(0.01);
+  const [imageFile, setImageFile] = useState(null);
   const inputRef = useRef(null);
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await fetch('/api/product-descriptions');
-        const data = await response.json();
-        setProducts(data);
-      } catch (error) {
-        console.error('Failed to fetch products:', error);
-      }
-    };
-
-    fetchProducts();
+  const fetchProducts = useCallback(async () => {
+    try {
+      const response = await fetch('/api/product-descriptions');
+      const data = await response.json();
+      setProducts(data);
+    } catch (error) {
+      console.error('Failed to fetch products:', error);
+    }
   }, []);
+
+  useEffect(() => {
+    fetchProducts();
+  }, [fetchProducts]);
 
   useEffect(() => {
     if (editingIndex !== null && inputRef.current) {
@@ -149,11 +150,36 @@ function ProductAdmin() {
     updateDescription();
   };
 
-  const handleProductClick = (model) => {
-    setModelPath(model.path);
-    fetchProductDescription(model.name);
-    fetchProductSettings(model.name);
+  const handleFileChange = (e) => {
+    setImageFile(e.target.files[0]);
   };
+
+  const handleUpload = async () => {
+    if (!imageFile || !selectedProduct) return;
+  
+    const formData = new FormData();
+    formData.append('file', imageFile);
+    formData.append('name', selectedProduct); // Enviar el nombre del producto al backend
+  
+    try {
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+  
+      if (response.ok) {
+        alert('Producto subido exitosamente');
+        fetchProducts();
+      } else {
+        alert('No se ha logrado subir el producto');
+      }
+    } catch (error) {
+      console.error('No se ha logrado subir el producto:', error);
+      alert('No se ha logrado subir el producto');
+    }
+  };
+  
+  
 
   const fetchProductDescription = async (name) => {
     try {
@@ -174,7 +200,7 @@ function ProductAdmin() {
       }
     } catch (error) {
       console.error('Failed to fetch product descriptions:', error);
-      setProductDescription('No description available for este producto.');
+      setProductDescription('No description available for this product.');
       setSelectedProduct(name);
       setCharacteristics([]);
     }
@@ -217,6 +243,12 @@ function ProductAdmin() {
     updatedCharacteristics.splice(hoverIndex, 0, removed);
     setCharacteristics(updatedCharacteristics);
     updateCharacteristics(updatedCharacteristics);
+  };
+
+  const handleProductClick = (model) => {
+    setModelPath(model.path);
+    fetchProductDescription(model.name);
+    fetchProductSettings(model.name);
   };
 
   return (
@@ -278,6 +310,10 @@ function ProductAdmin() {
                 />
                 <button onClick={handleAddCharacteristic}>Agregar Característica</button>
                 <button onClick={handleRemoveCharacteristic}>Quitar Última Característica</button>
+              </div>
+              <div>
+                <input type="file" onChange={handleFileChange} />
+                <button onClick={handleUpload}>Subir Imagen</button>
               </div>
             </div>
           )}

@@ -17,7 +17,7 @@ const ProductCards = ({ products }) => {
       {Array.isArray(products) && products.map((product, index) => (
         <div className="product-card" key={index}>
           <img 
-            src={product.path || 'https://via.placeholder.com/150'} 
+            src={product['path-image'] || product.path || 'https://via.placeholder.com/150'} 
             alt={product.name || 'No Image Available'} 
             className="product-image" 
           />

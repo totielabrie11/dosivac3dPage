@@ -70,28 +70,37 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
     return res.status(400).json({ message: 'Tipo de archivo no soportado' });
   }
 
-  const modelName = path.basename(req.file.originalname, fileExtension);
+  const modelName = req.body.name || path.basename(req.file.originalname, fileExtension); // Obtener el nombre del producto del body si está disponible
   const modelPath = `/models/${req.file.originalname}`;
 
   const descriptions = JSON.parse(fs.readFileSync(productosDescriptionPath, 'utf8'));
-  const existingProduct = descriptions.find(product => product.name === modelName);
+  const existingProduct = descriptions.find(product => product.name.toLowerCase() === modelName.toLowerCase());
 
   if (existingProduct) {
-    existingProduct.path = modelPath;
+    if (fileExtension === '.jpg' || fileExtension === '.png') {
+      existingProduct['path-image'] = modelPath;
+    } else {
+      existingProduct.path = modelPath;
+    }
   } else {
-    descriptions.push({ name: modelName, description: '', path: modelPath, caracteristicas: [] });
+    const newProduct = { name: modelName, description: '', path: modelPath, caracteristicas: [] };
+    if (fileExtension === '.jpg' || fileExtension === '.png') {
+      newProduct['path-image'] = modelPath;
+    }
+    descriptions.push(newProduct);
   }
 
   fs.writeFileSync(productosDescriptionPath, JSON.stringify(descriptions, null, 2));
 
   const order = JSON.parse(fs.readFileSync(productOrderPath, 'utf8'));
-  if (!order.includes(modelName)) {
-    order.push(modelName);
+  if (!order.includes(modelName.toLowerCase())) {
+    order.push(modelName.toLowerCase());
   }
   fs.writeFileSync(productOrderPath, JSON.stringify(order, null, 2));
 
   res.status(200).json({ message: 'Producto subido exitosamente', file: req.file });
 });
+
 
 function registerProducts(models) {
   const descriptions = JSON.parse(fs.readFileSync(productosDescriptionPath, 'utf8'));
@@ -100,9 +109,17 @@ function registerProducts(models) {
   models.forEach(model => {
     const existingProduct = descriptions.find(product => product.name === model.name);
     if (existingProduct) {
-      existingProduct.path = model.path;
+      if (model.path.endsWith('.jpg') || model.path.endsWith('.png')) {
+        existingProduct['path-image'] = model.path;
+      } else {
+        existingProduct.path = model.path;
+      }
     } else {
-      descriptions.push({ name: model.name, description: '', path: model.path, caracteristicas: [] });
+      const newProduct = { name: model.name, description: '', path: model.path, caracteristicas: [] };
+      if (model.path.endsWith('.jpg') || model.path.endsWith('.png')) {
+        newProduct['path-image'] = model.path;
+      }
+      descriptions.push(newProduct);
       if (!order.includes(model.name)) {
         order.push(model.name);
       }
@@ -112,6 +129,7 @@ function registerProducts(models) {
   fs.writeFileSync(productosDescriptionPath, JSON.stringify(descriptions, null, 2));
   fs.writeFileSync(productOrderPath, JSON.stringify(order, null, 2));
 }
+
 
 app.get('/api/models', (req, res) => {
   const result = getGLTFFiles();

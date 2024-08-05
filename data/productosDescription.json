@@ -10,12 +10,13 @@
       "Motor: Tipo brusheless",
       "Tipo de gases: R22 - R132 otros",
       "Apto: gases de nueva generación 600 inflamables"
-    ]
+    ],
+    "path-image": "/models/DVR6.png"
   },
   {
     "name": "soplador",
     "description": "Soplador tipo ROOTS  DS-DSV",
-    "path": "/models/bomba.glb",
+    "path": "/models/soplador.glb",
     "caracteristicas": [
       "Tipo de producto: soplador ",
       "Aplicación: Tratamiento de aguas",
@@ -23,7 +24,8 @@
       "Caudal: 30 m3/h a 2800 m3/h",
       "Presión positiva: hasta 800 mbar",
       "Presión negativa: hasta -500 mbar"
-    ]
+    ],
+    "path-image": "/models/DS.png"
   },
   {
     "name": "Mi-Emd",
@@ -34,7 +36,8 @@
       "Aplicación: Tratamiento de aguas",
       "Rango de caudal:  0.01 lts/h   -  16 lts/h",
       "Otras Características:  reemplazo de bomba Milenio "
-    ]
+    ],
+    "path-image": "/models/Mi-Emd.png"
   },
   {
     "name": "DSHC",
@@ -43,7 +46,8 @@
     "caracteristicas": [
       "Tipo de producto: bomba periferica",
       "Tipo de aplicación: elevacion de agua"
-    ]
+    ],
+    "path-image": "/models/DSHC.png"
   },
   {
     "name": "EMD-PLUS",
@@ -53,7 +57,8 @@
       "Tipo de Producto: Bomba Dosificadora",
       "Aplicación: Tratamiento de aguas",
       "Otras Características:  capacidad seguidora 4-20 o Digital."
-    ]
+    ],
+    "path-image": "/models/EMD-PLUS.png"
   },
   {
     "name": "DEAP",
@@ -61,7 +66,8 @@
     "path": "/models/DEAP.png",
     "caracteristicas": [
       "Tipo de Producto: Bomba Dosificadora"
-    ]
+    ],
+    "path-image": "/models/DEAP.png"
   },
   {
     "name": "DEN",
@@ -71,7 +77,8 @@
       "Tipo de Producto: Bomba Dosificadora",
       "Aplicación: sistemas de alta presión",
       "Tipo de industria: Petrolera"
-    ]
+    ],
+    "path-image": "/models/DEN.png"
   },
   {
     "name": "DECI",
@@ -81,7 +88,8 @@
       "Tipo de Producto: Bomba Dosificadora",
       "Aplicación: sistemas de alta presión",
       "Tipo de industria: Petrolera"
-    ]
+    ],
+    "path-image": "/models/DECI.png"
   },
   {
     "name": "EMD",
@@ -90,7 +98,8 @@
     "caracteristicas": [
       "Tipo de Producto: Bomba Dosificadora",
       "Aplicación: Tratamiento de aguas"
-    ]
+    ],
+    "path-image": "/models/EMD.png"
   },
   {
     "name": "DVR2",
@@ -100,7 +109,8 @@
       "Tipo de Producto: Bomba de vacío",
       "Aplicación: Refrigeración",
       "Estapas: 2 etapas"
-    ]
+    ],
+    "path-image": "/models/DVR2.png"
   },
   {
     "name": "DSHC",
@@ -119,7 +129,8 @@
       "Tipo de Producto: Bomba Dosificadora",
       "Aplicación: sistemas de alta presión",
       "Tipo de industria: Petrolera"
-    ]
+    ],
+    "path-image": "/models/DEPP.png"
   },
   {
     "name": "DENG",
@@ -129,19 +140,22 @@
       "Tipo de Producto: Bomba Dosificadora",
       "Aplicación: sistemas de alta presión",
       "Tipo de industria: Petrolera"
-    ]
+    ],
+    "path-image": "/models/DENG.png"
   },
   {
     "name": "DEON",
     "description": "",
     "path": "/models/DEON.png",
-    "caracteristicas": []
+    "caracteristicas": [],
+    "path-image": "/models/DEON.png"
   },
   {
     "name": "DAN",
     "description": "",
     "path": "/models/DAN.png",
-    "caracteristicas": []
+    "caracteristicas": [],
+    "path-image": "/models/DAN.png"
   },
   {
     "name": "ddiblanco.JPG",
@@ -170,13 +184,8 @@
       "Tipo de Producto: Bomba de vacío",
       "Aplicación: Refrigeración",
       "Etapas: 1 etapa"
-    ]
-  },
-  {
-    "name": "bomba",
-    "description": "",
-    "path": "/models/bomba.glb",
-    "caracteristicas": []
+    ],
+    "path-image": "/models/Supervac.png"
   },
   {
     "name": "periferica",
