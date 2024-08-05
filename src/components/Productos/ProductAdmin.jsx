@@ -21,6 +21,7 @@ function ProductAdmin() {
   const [isAnimating, setIsAnimating] = useState(false);
   const [rotationSpeed, setRotationSpeed] = useState(0.01);
   const [imageFile, setImageFile] = useState(null);
+  const [modelFile, setModelFile] = useState(null);
   const inputRef = useRef(null);
 
   const fetchProducts = useCallback(async () => {
@@ -151,35 +152,49 @@ function ProductAdmin() {
   };
 
   const handleFileChange = (e) => {
-    setImageFile(e.target.files[0]);
+    const file = e.target.files[0];
+    const fileExtension = file.name.split('.').pop().toLowerCase();
+    if (fileExtension === 'jpg' || fileExtension === 'png') {
+      setImageFile(file);
+    } else if (fileExtension === 'glb' || fileExtension === 'gltf') {
+      setModelFile(file);
+    } else {
+      alert('Tipo de archivo no soportado');
+    }
   };
 
   const handleUpload = async () => {
-    if (!imageFile || !selectedProduct) return;
-  
-    const formData = new FormData();
-    formData.append('file', imageFile);
-    formData.append('name', selectedProduct); // Enviar el nombre del producto al backend
-  
-    try {
-      const response = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      });
-  
-      if (response.ok) {
-        alert('Producto subido exitosamente');
-        fetchProducts();
-      } else {
+    if (!selectedProduct) return;
+
+    const uploadFile = async (file) => {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('name', selectedProduct);
+
+      try {
+        const response = await fetch('/api/upload', {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (response.ok) {
+          alert('Producto subido exitosamente');
+          fetchProducts();
+        } else {
+          alert('No se ha logrado subir el producto');
+        }
+      } catch (error) {
+        console.error('No se ha logrado subir el producto:', error);
         alert('No se ha logrado subir el producto');
       }
-    } catch (error) {
-      console.error('No se ha logrado subir el producto:', error);
-      alert('No se ha logrado subir el producto');
-    }
+    };
+
+    if (imageFile) await uploadFile(imageFile);
+    if (modelFile) await uploadFile(modelFile);
+
+    setImageFile(null);
+    setModelFile(null);
   };
-  
-  
 
   const fetchProductDescription = async (name) => {
     try {
@@ -313,7 +328,7 @@ function ProductAdmin() {
               </div>
               <div>
                 <input type="file" onChange={handleFileChange} />
-                <button onClick={handleUpload}>Subir Imagen</button>
+                <button onClick={handleUpload}>Subir Imagen/Modelo</button>
               </div>
             </div>
           )}

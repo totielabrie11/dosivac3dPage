@@ -373,14 +373,50 @@
   },
   {
     "name": "periferica",
-    "lightIntensity": 3.1,
+    "lightIntensity": 1,
     "spotLightIntensity": 1,
     "lightPosition": [
-      -1.7,
+      10,
       10,
       10
     ],
-    "isAnimating": true,
-    "rotationSpeed": 0.001
+    "isAnimating": false,
+    "rotationSpeed": 0.01
+  },
+  {
+    "name": "soplador",
+    "lightIntensity": 1,
+    "spotLightIntensity": 1,
+    "lightPosition": [
+      10,
+      10,
+      10
+    ],
+    "isAnimating": false,
+    "rotationSpeed": 0.01
+  },
+  {
+    "name": "EMD",
+    "lightIntensity": 3.5,
+    "spotLightIntensity": 1,
+    "lightPosition": [
+      10,
+      10,
+      10
+    ],
+    "isAnimating": false,
+    "rotationSpeed": 0.01
+  },
+  {
+    "name": "mouse",
+    "lightIntensity": 1,
+    "spotLightIntensity": 1,
+    "lightPosition": [
+      10,
+      10,
+      10
+    ],
+    "isAnimating": false,
+    "rotationSpeed": 0.01
   }
 ]

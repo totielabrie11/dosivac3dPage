@@ -94,7 +94,7 @@
   {
     "name": "EMD",
     "description": "Bomba Dosificadora EMD",
-    "path": "/models/EMD.png",
+    "path": "/models/emd.glb",
     "caracteristicas": [
       "Tipo de Producto: Bomba Dosificadora",
       "Aplicación: Tratamiento de aguas"
@@ -190,7 +190,7 @@
   {
     "name": "periferica",
     "description": "",
-    "path": "/models/periferica bomb.jpg",
+    "path": "/models/periferica.jpg",
     "caracteristicas": [],
     "path-image": "/models/periferica.jpg"
   }
