@@ -43,9 +43,23 @@ const ProductList = ({ setModelPath, setProductDescription, setSelectedProduct, 
     }
   }, [fetchProducts]);
 
+  const cleanProductOrder = useCallback(async () => {
+    try {
+      const response = await fetch('/api/clean-product-order');
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const result = await response.json();
+      setOrder(result.order);
+      fetchProducts(result.order);
+    } catch (error) {
+      console.error('Failed to clean product order:', error);
+    }
+  }, [fetchProducts]);
+
   useEffect(() => {
-    fetchProductOrder();
-  }, [fetchProductOrder]);
+    cleanProductOrder(); // Limpiar duplicados al montar el componente
+  }, [cleanProductOrder]);
 
   const saveProductOrder = async (order) => {
     try {
@@ -211,7 +225,7 @@ const ProductList = ({ setModelPath, setProductDescription, setSelectedProduct, 
 
   return (
     <div>
-      <button onClick={fetchProductOrder}>Reconocer Productos Instalados</button>
+      <button onClick={cleanProductOrder}>Reconocer Productos Instalados</button>
       <div>
         <input type="file" onChange={handleFileChange} />
         <button onClick={handleUpload}>Instalar Nuevo Producto</button>

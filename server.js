@@ -288,6 +288,14 @@ app.post('/api/edit-product-name', (req, res) => {
   });
 });
 
+// Nueva ruta para limpiar duplicados en productOrder.json
+app.get('/api/clean-product-order', (req, res) => {
+  let order = JSON.parse(fs.readFileSync(productOrderPath, 'utf8'));
+  const uniqueOrder = Array.from(new Set(order));
+  fs.writeFileSync(productOrderPath, JSON.stringify(uniqueOrder, null, 2));
+  res.json({ success: true, order: uniqueOrder });
+});
+
 app.use(express.static(path.join(__dirname, 'build')));
 
 app.get('*', (req, res) => {
